@@ -20,6 +20,7 @@ package tp3;
 import java.io.*;
 import java.sql.*;
 import java.util.StringTokenizer;
+import java.util.Date;
 
 public class Main {
 
@@ -349,15 +350,22 @@ public class Main {
                 rs = pstmCheckPersonne.executeQuery();
 
                 if (rs.next()) {
-                    rs = pstmCheckFilm.executeQuery();
+                    Date acteurDate = rs.getDate("dateNaissance");
+                
+                    if( acteurDate > anneeSortie){
+                        rs = pstmCheckFilm.executeQuery();
 
-                    if (rs.next()) {
-                        int nbAjout = pstmAjoutActeurFilm.executeUpdate();
-                        System.out.println(nbAjout > 0 ? "Transaction reussit\n" : " \n");
-                        cx.commit();
-                    } else {
+                        if (rs.next()) {
+                            int nbAjout = pstmAjoutActeurFilm.executeUpdate();
+                            System.out.println(nbAjout > 0 ? "Transaction reussit\n" : " \n");
+                            cx.commit();
+                        } else {
+                            throw new Tp3Exception(
+                                    "Impossible d'ajouter l'acteur au film puisque que celui-ci y joue deja.\n");
+                        }
+                    }else{
                         throw new Tp3Exception(
-                                "Impossible d'ajouter l'acteur au film puisque que celui-ci y joue deja.\n");
+                                    "L'acteur semble etre nee avant la date de sortie du film.\n");
                     }
                 } else {
                     throw new Tp3Exception(
