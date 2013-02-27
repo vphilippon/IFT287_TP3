@@ -7,9 +7,21 @@ package tp3;
 import java.sql.Date;
 import java.sql.SQLException;
 
-/**
+/*
+ * Projet : Tp3
  *
- * @author guillaume
+ * Membres :
+ * - Guillaume Harvey 12 059 595
+ * - Kevin Labrie 12 113 777
+ * - Vincent Philippon 12 098 838
+ * - Mathieu Larocque 10 129 032
+ *
+ * Tache :
+ * - Guillaume Harvey : 
+ * - Kevin Labrie : 
+ * - Vincent Philippon : 
+ * - Mathieu Larocque : 
+ * 
  */
 class GestionFilm {
     

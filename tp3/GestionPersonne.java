@@ -5,22 +5,47 @@
 package tp3;
 
 import java.sql.Date;
+import java.sql.SQLException;
 
-/**
+/*
+ * Projet : Tp3
  *
- * @author guillaume
+ * Membres :
+ * - Guillaume Harvey 12 059 595
+ * - Kevin Labrie 12 113 777
+ * - Vincent Philippon 12 098 838
+ * - Mathieu Larocque 10 129 032
+ *
+ * Tache :
+ * - Guillaume Harvey : 
+ * - Kevin Labrie : 
+ * - Vincent Philippon : 
+ * - Mathieu Larocque : 
+ * 
  */
 class GestionPersonne {
-
+    
+    private Personne personne;
+    private Connexion cx;
+    
     GestionPersonne(Personne personne) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        this.cx = personne.getConnexion();
+        this.personne = personne;
     }
 
-    void ajoutPersonne(String readString, Date readDate, String readString0, int readInt) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    void ajoutPersonne(String nom, Date dateNaissance, String lieuNaissance, int sexe) throws SQLException, Tp3Exception {
+     /*    try{   
+            // Vérifie si la personne existe déja 
+            if (personne.existe(nom)) {
+                throw new Tp3Exception("Film existe deja: " + nom);
+            }
+            personne.ajouter(nom, dateNaissance, lieuNaissance, sexe);
+            cx.commit();
+    */
     }
 
     void supPersonne(String readString) {
         throw new UnsupportedOperationException("Not yet implemented");
+    
     }
 }
