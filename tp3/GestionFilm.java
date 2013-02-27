@@ -34,19 +34,19 @@ class GestionFilm {
 
     void ajoutFilm(String titre, Date dateSortie, String realisateur) throws SQLException, Tp3Exception, Exception {
         try {
-            // Vérifie si le livre existe déja 
+            // Vérifie si le film existe déja 
             if (film.existe(titre, dateSortie)) {
                 throw new Tp3Exception("Film existe deja: " + titre + " " + dateSortie);
             }
             else
-                // Vérifie si le réalisateur n'existe pas
+                // S'assure que le réalisateur existe
                 if (!personne.existe(realisateur)){
                     throw new Tp3Exception("Le réalisateur n'existe pas: " + realisateur);
                 }
                 else 
                 {
                     Date realisateurNaissance = personne.getPersonne(realisateur).getDateNaissance();
-                    // Verifie si le réalisateur est né après la sortie du film
+                    // S'assure que le réalisateur est né avant la sortie du film
                     if (realisateurNaissance.after(dateSortie)){
                         throw new Tp3Exception("Le réalisateur est né le: " + realisateurNaissance + " et ne peut pas participer à un film créé le: " + dateSortie);
                     }
@@ -61,16 +61,59 @@ class GestionFilm {
             throw e;
         }
     }
-
-    void supFilm(String titre, Date dateSortie) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    
+    /**
+     * 
+     * @param titre
+     * @param dateSortie 
+     */
+    void supFilm(String titre, Date dateSortie) throws SQLException, Tp3Exception, Exception {
+        try {
+            // Vérifie si le film existe déja
+            if (!film.existe(titre, dateSortie)) {
+                    throw new Tp3Exception("Film n'existe pas: " + titre + " " + dateSortie);
+                }
+            // Supression du livre dans la table des livres
+            film.enlever(titre, dateSortie);
+            cx.commit();
+        }
+        catch (Exception e)
+        {
+            cx.fermer();
+            throw e;
+        }
     }
-
-    void ajoutDescFilm(String titre, Date anneeSortie, String description, int duree) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    
+    /**
+     * 
+     * @param titre
+     * @param anneeSortie
+     * @param description
+     * @param duree 
+     */
+    void ajoutDescFilm(String titre, Date anneeSortie, String description, int duree) throws Tp3Exception, SQLException, Exception {
+        try{
+            if(!film.existe(titre, anneeSortie)){
+                throw new Tp3Exception("Film n'existe pas: " + titre + " " + anneeSortie);
+            }
+            film.ajouterDescription(film.getFilm(titre, anneeSortie), description, duree);
+            cx.commit();
+        }
+        catch(Exception e){
+            cx.fermer();
+            throw e;
+        }
     }
-
-    void listeRealisateur() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    
+    void listeRealisateur() throws Tp3Exception, SQLException, Exception {
+        try{
+            film.listerRealisateur();
+            cx.commit();
+        }
+        catch(Exception e)
+        {
+            cx.fermer();
+            throw e;
+        }
     }
 }
