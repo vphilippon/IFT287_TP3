@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package tp3;
 
 /*
@@ -21,14 +20,15 @@ package tp3;
 import java.io.*;
 import java.sql.*;
 import java.util.StringTokenizer;
+<<<<<<< HEAD
 
 public class Main {
 
     private static Connexion cx;
 
-    private static PreparedStatement pstmCheckPersonne;
-    private static PreparedStatement pstmInsertPersonne;
-    private static PreparedStatement pstmDeletePersonne;
+    private static PreparedStatement pstmGetPersonne; // XXX DONE
+    private static PreparedStatement pstmInsertPersonne; // XXX DONE
+    private static PreparedStatement pstmDeletePersonne; // XXX DONE
 
     private static PreparedStatement pstmCountRole;
     private static PreparedStatement pstmCountRealisateur;
@@ -48,7 +48,7 @@ public class Main {
      */
     public static void main(String[] args) throws Exception {
         if (args.length < 3) {
-            System.out.println("Usage: java tp2.Main <bd> <user> <password> [<fichier-transactions>]");
+            System.out.println("Usage: java tp3.Main <bd> <user> <password> [<fichier-transactions>]");
             return;
         }
         cx = new Connexion("postgres", args[0], args[1], args[2]);
@@ -62,14 +62,14 @@ public class Main {
     }
 
     private static void initStatement() throws SQLException {
-        pstmCheckPersonne = cx.getConnection().prepareStatement(
-                "SELECT * FROM Personne WHERE nom = ?");
+        pstmGetPersonne = cx.getConnection().prepareStatement(
+                "SELECT * FROM Personne WHERE nom = ?"); // XXX DONE
 
         pstmInsertPersonne = cx.getConnection().prepareStatement(
-                "INSERT INTO Personne (nom, datenaissance, lieunaissance, sexe) VALUES(?, ?, ?, ?)");
+                "INSERT INTO Personne (nom, datenaissance, lieunaissance, sexe) VALUES(?, ?, ?, ?)"); // XXX DONE
         
         pstmDeletePersonne = cx.getConnection().prepareStatement(
-                "DELETE FROM Personne WHERE nom = ?");
+                "DELETE FROM Personne WHERE nom = ?"); // XXX DONE
 
         pstmCheckFilm = cx.getConnection().prepareStatement(
                 "SELECT * FROM Film WHERE titre = ? AND dateSortie = ?");
@@ -153,8 +153,8 @@ public class Main {
                     + "', date de naissance = '" + dateNaissance
                     + "', sexe = '" + sexe + "').\n");
         } else {
-            pstmCheckPersonne.setString(1, nom);
-            ResultSet rs = pstmCheckPersonne.executeQuery();
+            pstmGetPersonne.setString(1, nom);
+            ResultSet rs = pstmGetPersonne.executeQuery();
 
             if (!rs.next()) {
                 pstmInsertPersonne.setString(1, nom);
@@ -177,8 +177,8 @@ public class Main {
             throw new Tp3Exception("Le nom est invalide (nom = '" + nom + "'.\n");
         } else {
 
-            pstmCheckPersonne.setString(1, nom);
-            ResultSet rs = pstmCheckPersonne.executeQuery();
+            pstmGetPersonne.setString(1, nom);
+            ResultSet rs = pstmGetPersonne.executeQuery();
 
             // Si la personne existe
             if (rs.next()) {
@@ -224,8 +224,8 @@ public class Main {
             pstmCheckFilm.setDate(2, dateSortie);
             ResultSet rs = pstmCheckFilm.executeQuery();
             if (!rs.next()) {
-                pstmCheckPersonne.setString(1, realisateur);
-                rs = pstmCheckPersonne.executeQuery();
+                pstmGetPersonne.setString(1, realisateur);
+                rs = pstmGetPersonne.executeQuery();
                 if (rs.next()) {
                     pstmInsertFilm.setString(1, titre);
                     pstmInsertFilm.setDate(2, dateSortie);
@@ -339,7 +339,7 @@ public class Main {
             pstmCheckActeurFilm.setString(1, titre);
             pstmCheckActeurFilm.setDate(2, anneeSortie);
             pstmCheckActeurFilm.setString(3, acteur);
-            pstmCheckPersonne.setString(1, acteur);
+            pstmGetPersonne.setString(1, acteur);
 
             pstmCheckFilm.setString(1, titre);
             pstmCheckFilm.setDate(2, anneeSortie);
@@ -347,129 +347,10 @@ public class Main {
             ResultSet rs = pstmCheckActeurFilm.executeQuery();
 
             if (!rs.next()) {
-                rs = pstmCheckPersonne.executeQuery();
+                rs = pstmGetPersonne.executeQuery();
 
                 if (rs.next()) {
-                    rs = pstmCheckFilm.executeQuery();
-
-                    if (rs.next()) {
-                        int nbAjout = pstmAjoutActeurFilm.executeUpdate();
-                        System.out.println(nbAjout > 0 ? "Transaction reussit\n" : " \n");
-                        cx.commit();
-                    } else {
-                        throw new Tp3Exception(
-                                "Impossible d'ajouter l'acteur au film puisque que celui-ci y joue deja.\n");
-                    }
-                } else {
-                    throw new Tp3Exception(
-                            "Impossible d'ajouter l'acteur au film puisque que le film n'existe pas.\n");
-                }
-            } else {
-                throw new Tp3Exception(
-                        "Impossible d'ajouter l'acteur au film puisque que l'acteur n'existe pas.\n");
-            }
-
-            rs.close();
-        }
-
-    }
-
-    /** Les methodes suivantes n'ont pas besoin d'etre modifiees */
-
-    public static BufferedReader ouvrirFichier(String[] args)
-            throws FileNotFoundException {
-        if (args.length < 4)
-            // lecture au clavier
-            return new BufferedReader(new InputStreamReader(System.in));
-        else
-            // lecture dans le fichier passe en parametre
-            return new BufferedReader(new InputStreamReader(
-                    new FileInputStream(args[3])));
-    }
-
-    /**
-     * Lecture d'une transaction
-     */
-    static String lireTransaction(BufferedReader reader) throws IOException {
-        return reader.readLine();
-    }
-
-    /**
-     * Verifie si la fin du traitement des transactions est atteinte.
-     */
-    static boolean finTransaction(String transaction) {
-        // fin de fichier atteinte
-        if (transaction == null || transaction.equals("exit"))
-            return true;
-        else
-            return false;
-    }
-
-    /** lecture d'une chaine de caracteres de la transaction entree a l'ecran */
-    static String readString(StringTokenizer tokenizer) throws Exception {
-        if (tokenizer.hasMoreElements())
-            return tokenizer.nextToken();
-        else
-            throw new Exception("autre parametre attendu");
-    }
-
-    /**
-     * lecture d'un int java de la transaction entree a l'ecran
-     */
-    static int readInt(StringTokenizer tokenizer) throws Exception {
-        if (tokenizer.hasMoreElements()) {
-            String token = tokenizer.nextToken();
-            try {
-                return Integer.valueOf(token).intValue();
-            } catch (NumberFormatException e) {
-                throw new Exception("Nombre attendu a la place de \"" + token
-                        + "\"");
-            }
-        } else
-            throw new Exception("autre parametre attendu");
-    }
-
-    static Date readDate(StringTokenizer tokenizer) throws Exception {
-        if (tokenizer.hasMoreElements()) {
-            String token = tokenizer.nextToken();
-            try {
-                return Date.valueOf(token);
-            } catch (IllegalArgumentException e) {
-                throw new Exception("Date dans un format invalide - \"" + token
-                        + "\"");
-            }
-        } else
-            throw new Exception("autre parametre attendu");
-    }
-
-    public static boolean isStringNotEmpty(String s) {
-        return (s != null && s.length() > 0);
-    }
-
 =======
-package tp3;
-
-/*
- * Projet : Tp3
- *
- * Membres :
- * - Guillaume Harvey 12 059 595
- * - Kevin Labrie 12 113 777
- * - Vincent Philippon 12 098 838
- * - Mathieu Larocque 10 129 032
- *
- * Tache :
- * - Guillaume Harvey : fonction effectuerAjoutActeurFilm
- * - Kevin Labrie : fonction effectuerAjoutPersonne
- * - Vincent Philippon : fonction effectuerSupPersonne, ajustement final
- * - Mathieu Larocque : fonction effectuerAjoutFilm, effectuerSupFilm, effectuerAjoutDescFilm et merge du document
- * 
- */
-
-import java.io.*;
-import java.sql.*;
-import java.util.StringTokenizer;
-import java.util.Date;
 
 public class Main {
 
@@ -491,6 +372,8 @@ public class Main {
 
     private static PreparedStatement pstmAjoutActeurFilm;
     private static PreparedStatement pstmCheckActeurFilm;
+    
+    private static GestionTp3 gestionTp3;
 
     /**
      * @param args
@@ -501,7 +384,7 @@ public class Main {
             return;
         }
         cx = new Connexion("postgres", args[0], args[1], args[2]);
-        initStatement();
+        
         BufferedReader reader = ouvrirFichier(args);
         String transaction = lireTransaction(reader);
         while (!finTransaction(transaction)) {
@@ -509,7 +392,8 @@ public class Main {
             transaction = lireTransaction(reader);
         }
     }
-
+    //comment unsupported version this does not belong here anymore :(
+    /*
     private static void initStatement() throws SQLException {
         pstmCheckPersonne = cx.getConnection().prepareStatement(
                 "SELECT * FROM Personne WHERE nom = ?");
@@ -547,7 +431,8 @@ public class Main {
         pstmCountRole = cx.getConnection().prepareStatement(
                 "SELECT * FROM RoleFilm WHERE nomActeur = ?");
     }
-
+    */
+    
     /**
      * Decodage et traitement d'une transaction :
      */
@@ -558,40 +443,94 @@ public class Main {
             StringTokenizer tokenizer = new StringTokenizer(transaction, " ");
             if (tokenizer.hasMoreTokens()) {
                 String command = tokenizer.nextToken();
-                if ("ajoutPersonne".startsWith(command))
-                    effectuerAjoutPersonne(readString(tokenizer) /* nom */,
+                if ("ajoutPersonne".startsWith(command)){
+                    gestionTp3.gestionPersonne.ajoutPersonne(readString(tokenizer) /* nom */,
                             readDate(tokenizer) /* dateNaissance */,
                             readString(tokenizer) /* lieuNaissance */,
                             readInt(tokenizer) /* sexe */);
-                else if ("supPersonne".startsWith(command))
-                    effectuerSupPersonne(readString(tokenizer) /* nom */);
-                else if ("ajoutFilm".startsWith(command))
-                    effectuerAjoutFilm(readString(tokenizer) /* titre */,
+                    
+                }else if ("supPersonne".startsWith(command)){
+                    gestionTp3.gestionPersonne.supPersonne(readString(tokenizer) /* nom */);
+                
+                }else if ("ajoutFilm".startsWith(command)){
+                    gestionTp3.gestionFilm.ajoutFilm(readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */,
                             readString(tokenizer) /* realisateur */);
-                else if ("supFilm".startsWith(command))
-                    effectuerSupFilm(readString(tokenizer) /* titre */,
+                
+                }else if ("supFilm".startsWith(command)){
+                    gestionTp3.gestionFilm.supFilm(readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */);
-                else if ("ajoutDescFilm".startsWith(command))
-                    effectuerAjoutDescFilm(readString(tokenizer) /* titre */,
+                
+                }else if ("ajoutDescFilm".startsWith(command)){
+                    gestionTp3.gestionFilm.ajoutDescFilm(readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */,
                             readString(tokenizer) /* description */,
                             readInt(tokenizer) /* duree */);
-                else if ("ajoutActeurFilm".startsWith(command))
-                    effectuerAjoutActeurFilm(
+                
+                }else if ("ajoutActeurFilm".startsWith(command)){
+                    gestionTp3.gestionRoleFilm.ajoutActeurFilm(
                             readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */,
                             readString(tokenizer) /* nom */,
                             readString(tokenizer) /* role */);
-                else
+                
+                }else if ("ajoutSerie".startsWith(command)){
+                    gestionTp3.gestionSerie.ajoutSerie(
+                            readString(tokenizer) /* titre */,
+                            readDate(tokenizer) /* annee */,
+                            readString(tokenizer) /* nom realisateur */);
+                
+                }else if ("ajoutEpisode".startsWith(command)){
+                    gestionTp3.gestionEpisode.ajoutEpisode(
+                            readString(tokenizer) /* titre episode */,
+                            readString(tokenizer) /* titre serie */,
+                            readDate(tokenizer) /* annee serie */,
+                            readInt(tokenizer) /* no saison */,
+                            readInt(tokenizer) /* no episode */,
+                            readString(tokenizer) /* description */,
+                            readString(tokenizer) /* date episode */);
+                
+                }else if ("ajoutActeurEpisode".startsWith(command)){
+                    gestionTp3.gestionRoleEpisode.ajoutRole(
+                            readString(tokenizer) /* titre serie */,
+                            readDate(tokenizer) /* annee serie */,
+                            readInt(tokenizer) /* no saison */,
+                            readInt(tokenizer) /* no episode */,
+                            readString(tokenizer) /* nom acteur */,
+                            readString(tokenizer) /* Role de l acteur */);
+                
+                }else if ("listeActeursSerie".startsWith(command)){
+                    gestionTp3.gestionSerie.getActeurFromSerie(
+                            readString(tokenizer) /* titre */,
+                            readDate(tokenizer) /* annee */);
+                
+                }else if ("listeSerieActeur".startsWith(command)){
+                    gestionTp3.gestionSerie.getSerieWithActeur(
+                            readString(tokenizer) /* nom */);
+                
+                }else if ("listeRealisateurs".startsWith(command)){
+                    gestionTp3.gestionFilm.listeRealisateur();
+                
+                }else if ("listeActeurFilm".startsWith(command)){
+                    gestionTp3.gestionRoleFilm.getActeurFromFilm(
+                            readString(tokenizer) /* titre */,
+                            readDate(tokenizer) /* annee */);
+                
+                }else if ("listeFilmsActeur".startsWith(command)){
+                    gestionTp3.gestionRoleFilm.getFilmFromActeur(
+                            readString(tokenizer) /* nom */);
+                
+                }else{
                     System.out.println(" : Transaction non reconnue");
+                }
             }
         } catch (Exception e) {
             System.out.println(" " + e.toString());
             cx.rollback();
         }
     }
-
+    // comment because not needed but we can use the code in gestionnaire
+/*
     public static void effectuerAjoutPersonne(String nom, Date dateNaissance, 
             String lieuNaissance, int sexe) throws SQLException, Tp3Exception {
         
@@ -799,9 +738,10 @@ public class Main {
                 rs = pstmCheckPersonne.executeQuery();
 
                 if (rs.next()) {
+>>>>>>> 1bb6dd24c26d3d874947ce3773c6a31d3e9f6ba9
                     Date acteurDate = rs.getDate("dateNaissance");
                 
-                    if( acteurDate <= anneeSortie){
+                    if(acteurDate.before(anneeSortie)){
                         rs = pstmCheckFilm.executeQuery();
 
                         if (rs.next()) {
@@ -829,7 +769,7 @@ public class Main {
         }
 
     }
-
+*/
     /** Les methodes suivantes n'ont pas besoin d'etre modifiees */
 
     public static BufferedReader ouvrirFichier(String[] args)
@@ -902,5 +842,4 @@ public class Main {
         return (s != null && s.length() > 0);
     }
 
->>>>>>> 2f8ddde143535cc837001b177923d357312a7faa
 }

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Creer BD
 	Guillaume Harvey
 	Kevin Labrie
@@ -28,7 +28,7 @@ CREATE TABLE Film (
 	CONSTRAINT filmPK PRIMARY KEY (titre, dateSortie),
 	CONSTRAINT filmFK FOREIGN KEY (realisateur) REFERENCES Personne(nom)
  );
-  
+ 
 /* ROLE_FILM */
 DROP TABLE IF EXISTS RoleFilm CASCADE;
 CREATE TABLE RoleFilm (
@@ -36,19 +36,20 @@ CREATE TABLE RoleFilm (
 	roleActeur VARCHAR(255) NOT NULL,
 	filmTitre VARCHAR(255) NOT NULL,
 	anneeSortie DATE NOT NULL,
-	CONSTRAINT rolePK PRIMARY KEY (nomActeur, filmTitre, anneeSortie),
-	CONSTRAINT roleTitreFK FOREIGN KEY (filmTitre, anneeSortie) REFERENCES Film(titre, dateSortie)
+	CONSTRAINT roleFilmPK PRIMARY KEY (nomActeur, filmTitre, anneeSortie),
+	CONSTRAINT roleFilmTitreFK FOREIGN KEY (filmTitre, anneeSortie) REFERENCES Film(titre, dateSortie),
+	CONSTRAINT roleFilmActeurFK FOREIGN KEY (nomActeur) REFERENCES Personne(nom)
 );
   
 /* SERIE */
-DROP TABLE IF EXISTS Seire CASCADE;
+DROP TABLE IF EXISTS Serie CASCADE;
 CREATE TABLE Serie (
 	titre VARCHAR(255) NOT NULL,
 	anneeSortie DATE NOT NULL,
 	realisateur VARCHAR(255) NOT NULL,
 	description VARCHAR(255),
 	nbSaison INTEGER NOT NULL,
-	CONSTRAINT seriePK PRIMARY KEY (titre),
+	CONSTRAINT seriePK PRIMARY KEY (titre, anneeSortie),
 	CONSTRAINT serieFK FOREIGN KEY (realisateur) REFERENCES Personne(nom)
 );
 	
@@ -62,13 +63,13 @@ CREATE TABLE Episode (
 	noEpisode INTEGER NOT NULL, 
 	description VARCHAR(255),
 	dateDiffusion DATE NOT NULL,
-	CONSTRAINT episodePK PRIMARY KEY (titre, titreSerie, anneeSortieSerie),
+	CONSTRAINT episodePK PRIMARY KEY (titreSerie, anneeSortieSerie, noSaison, noEpisode),
 	CONSTRAINT episodeFK FOREIGN KEY (titreSerie, anneeSortieSerie) REFERENCES Serie(titre, anneeSortie),
 	CONSTRAINT noSaisonCHK CHECK(noSaison > 0),
-	CONSTRAINT noEpisodeCHK CHECK (noEpisode > 0);
+	CONSTRAINT noEpisodeCHK CHECK (noEpisode > 0)
 );
 
-/* ROLE_EPISODE*/
+/* ROLE_EPISODE */
 DROP TABLE IF EXISTS RoleEpisode CASCADE;
 CREATE TABLE RoleEpisode(
 	nomActeur VARCHAR(255) NOT NULL,
@@ -77,8 +78,10 @@ CREATE TABLE RoleEpisode(
 	titreEpisode VARCHAR(255) NOT NULL,
 	noSaison INTEGER NOT NULL,
 	noEpisode INTEGER NOT NULL,
-	dateDiffusion DATE NOT NULL,
-	CONSTRAINT rolePK PRIMARY KEY (nomActeur, titreSerie, noSaison, noEpisode),
-	CONSTRAINT roleTitreFK FOREIGN KEY (titreEpisode, dateDiffusion, noSaison, noEpisode) REFERENCES Episode(titre, dateDiffusion)
+	anneeSortieSerie DATE NOT NULL,
+	CONSTRAINT roleEpisodePK PRIMARY KEY (nomActeur, titreSerie, anneeSortieSerie, noSaison, noEpisode),	
+	CONSTRAINT roleEpisodeFK1 FOREIGN KEY (nomActeur) REFERENCES Personne(nom),	
+	CONSTRAINT roleEpisodeFK2 FOREIGN KEY (titreSerie, noSaison, noEpisode, anneeSortieSerie) REFERENCES Episode(titreSerie, noSaison, noEpisode, anneeSortieSerie),
+	CONSTRAINT roleEpisodeFK3 FOREIGN KEY (titreSerie, anneeSortieSerie) REFERENCES Serie(titre, anneeSortie)
 );
-	
+
