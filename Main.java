@@ -1,4 +1,4 @@
-package tp2;
+package tp3;
 
 /*
  * Projet : Tp2
@@ -101,7 +101,7 @@ public class Main {
     /**
      * Decodage et traitement d'une transaction :
      */
-    static void executerTransaction(String transaction) throws Exception, Tp2Exception {
+    static void executerTransaction(String transaction) throws Exception, Tp3Exception {
         try {
             System.out.println(transaction);
             // decoupage de la transaction en mots
@@ -143,11 +143,11 @@ public class Main {
     }
 
     public static void effectuerAjoutPersonne(String nom, Date dateNaissance, 
-            String lieuNaissance, int sexe) throws SQLException, Tp2Exception {
+            String lieuNaissance, int sexe) throws SQLException, Tp3Exception {
         
         if (!isStringNotEmpty(nom) || !isStringNotEmpty(lieuNaissance) || sexe < 0 || sexe > 1) {
             //une donner est invalide
-            throw new Tp2Exception("Un parametre est invalide "
+            throw new Tp3Exception("Un parametre est invalide "
                     + "(nom = '" + nom
                     + "', date de naissance = '" + dateNaissance
                     + "', sexe = '" + sexe + "').\n");
@@ -164,16 +164,16 @@ public class Main {
                 int nbAjout = pstmInsertPersonne.executeUpdate();
                 System.out.println(nbAjout > 0 ? "Transaction reussit\n" : " \n");
             } else {
-                throw new Tp2Exception("La personne " + nom + " existe deja.\n");
+                throw new Tp3Exception("La personne " + nom + " existe deja.\n");
             }
             rs.close();
             cx.commit();
         }
     }
 
-    public static void effectuerSupPersonne(String nom) throws SQLException, Tp2Exception {
+    public static void effectuerSupPersonne(String nom) throws SQLException, Tp3Exception {
         if (!isStringNotEmpty(nom)) {
-            throw new Tp2Exception("Le nom est invalide (nom = '" + nom + "'.\n");
+            throw new Tp3Exception("Le nom est invalide (nom = '" + nom + "'.\n");
         } else {
 
             pstmCheckPersonne.setString(1, nom);
@@ -197,24 +197,24 @@ public class Main {
                         rs.close();
                         cx.commit();
                     } else {
-                        throw new Tp2Exception("La personne " + nom 
+                        throw new Tp3Exception("La personne " + nom 
                                 + " possede au moins un role dans un film.\n");
                     }
                 } else {
-                    throw new Tp2Exception("La personne " + nom
+                    throw new Tp3Exception("La personne " + nom
                             + " est realisateur de film(s) encore existant.\n");
                 }
             } else {
-                throw new Tp2Exception("La personne " + nom + "n'existe pas.\n");
+                throw new Tp3Exception("La personne " + nom + "n'existe pas.\n");
             }
         }
     }
 
     public static void effectuerAjoutFilm(String titre, Date dateSortie, 
-            String realisateur) throws SQLException, Tp2Exception {
+            String realisateur) throws SQLException, Tp3Exception {
         if (!isStringNotEmpty(titre) || !isStringNotEmpty(realisateur)) {
             //une donner est invalide
-            throw new Tp2Exception("Un parametre est invalide " 
+            throw new Tp3Exception("Un parametre est invalide " 
                     + "(titre = '" + titre 
                     + "', date de sortie = '" + dateSortie
                     + "', realisateur = '" + realisateur + "').\n");
@@ -236,11 +236,11 @@ public class Main {
                     cx.commit();
                 } else {
                     //le realisateur n existe pas
-                    throw new Tp2Exception("Le realisateur : '" + realisateur + "' n'existe pas.\n");
+                    throw new Tp3Exception("Le realisateur : '" + realisateur + "' n'existe pas.\n");
                 }
             } else {
                 //un film existe deja avec le nom et la meme date de sortie
-                throw new Tp2Exception(
+                throw new Tp3Exception(
                         "Le film que vous tentez de creer existe deja " 
                                 + "(titre = '" + titre 
                                 + "', annee de sortie = '" + dateSortie + "').\n");
@@ -249,10 +249,10 @@ public class Main {
     }
 
     public static void effectuerSupFilm(String titre, Date dateSortie)
-            throws SQLException, Tp2Exception {
+            throws SQLException, Tp3Exception {
         if (!isStringNotEmpty(titre)) {
             //une donner est invalide
-            throw new Tp2Exception("Un parametre est invalide (titre = '"
+            throw new Tp3Exception("Un parametre est invalide (titre = '"
                     + titre + "', date de sortie = '" + dateSortie + "').\n");
         } else {
             pstmCheckFilm.setString(1, titre);
@@ -273,13 +273,13 @@ public class Main {
 
                 } else {
                     //un role est associer au film
-                    throw new Tp2Exception(
+                    throw new Tp3Exception(
                             "On ne peut supprimer le film car au moins un role lui est relier (acteur = '"
                                     + rs.getString("nomActeur") + "').\n");
                 }
             } else {
                 //le film n existe pas
-                throw new Tp2Exception(
+                throw new Tp3Exception(
                         "Le film : '"
                                 + titre
                                 + "', dont l'annee de sortie est : '"
@@ -290,11 +290,11 @@ public class Main {
     }
 
     public static void effectuerAjoutDescFilm(String titre, Date anneeSortie,
-            String description, int duree) throws SQLException, Tp2Exception {
+            String description, int duree) throws SQLException, Tp3Exception {
         if (!isStringNotEmpty(titre) || !isStringNotEmpty(description)
                 || duree < 0) {
             //une donner est invalide
-            throw new Tp2Exception("Un parametre est invalide (titre = '"
+            throw new Tp3Exception("Un parametre est invalide (titre = '"
                     + titre + "', date de sortie = '" + anneeSortie
                     + "', description = '" + description + "', duree = '"
                     + duree + "').\n");
@@ -315,18 +315,18 @@ public class Main {
 
             } else {
                 //le film n existe pas
-                throw new Tp2Exception("Le film : '" + titre
+                throw new Tp3Exception("Le film : '" + titre
                         + "', sortant le '" + anneeSortie + "' n'existe pas.\n");
             }
         }
     }
 
     public static void effectuerAjoutActeurFilm(String titre, Date anneeSortie,
-            String acteur, String role) throws SQLException, Tp2Exception {
+            String acteur, String role) throws SQLException, Tp3Exception {
         if (!isStringNotEmpty(titre) || !isStringNotEmpty(acteur)
                 || !isStringNotEmpty(role)) {
             //une donner est invalide
-            throw new Tp2Exception("Un parametre est invalide (titre = '"
+            throw new Tp3Exception("Un parametre est invalide (titre = '"
                     + titre + "', date de sortie = '" + anneeSortie
                     + "', acteur = '" + acteur + "', role = '" + role + "').\n");
         } else {
@@ -356,15 +356,15 @@ public class Main {
                         System.out.println(nbAjout > 0 ? "Transaction reussit\n" : " \n");
                         cx.commit();
                     } else {
-                        throw new Tp2Exception(
+                        throw new Tp3Exception(
                                 "Impossible d'ajouter l'acteur au film puisque que celui-ci y joue deja.\n");
                     }
                 } else {
-                    throw new Tp2Exception(
+                    throw new Tp3Exception(
                             "Impossible d'ajouter l'acteur au film puisque que le film n'existe pas.\n");
                 }
             } else {
-                throw new Tp2Exception(
+                throw new Tp3Exception(
                         "Impossible d'ajouter l'acteur au film puisque que l'acteur n'existe pas.\n");
             }
 

@@ -1,4 +1,4 @@
-package tp2;
+package tp3;
 
 import java.sql.*;
 
@@ -63,7 +63,7 @@ public class Connexion {
 						user, pass);
 			} else
 			{
-				throw new Tp2Exception("Serveur non reconnu");
+				throw new Tp3Exception("Serveur non reconnu");
 			}
 
 			// mettre en mode de commit manuel
