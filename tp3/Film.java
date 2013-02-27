@@ -39,4 +39,8 @@ class Film {
     void ajouterDescription(TupleFilm film, String description, int duree) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+    void listerRealisateur() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }

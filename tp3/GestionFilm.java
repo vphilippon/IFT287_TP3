@@ -105,7 +105,15 @@ class GestionFilm {
         }
     }
     
-    void listeRealisateur() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    void listeRealisateur() throws Tp3Exception, SQLException, Exception {
+        try{
+            film.listerRealisateur();
+            cx.commit();
+        }
+        catch(Exception e)
+        {
+            cx.fermer();
+            throw e;
+        }
     }
 }
