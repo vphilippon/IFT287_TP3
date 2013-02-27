@@ -15,4 +15,8 @@ class GestionRoleEpisode {
     GestionRoleEpisode(RoleEpisode roleEpisode, Serie serie, Personne personne) {
         throw new UnsupportedOperationException("Not yet implemented");
     }    
+
+    void ajoutRole(String readString, Date readDate, String readString0, String readString1, String readString2, String readString3) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }
