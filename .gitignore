@@ -6,3 +6,4 @@
 *.ear
 /IFT287_TP3/nbproject/private/
 /nbproject/private/
+!/postgresql-9.0-801.jdbc4.jar
