@@ -10,10 +10,10 @@ package tp3;
  * - Mathieu Larocque 10 129 032
  *
  * Tache :
- * - Guillaume Harvey : fonction effectuerAjoutActeurFilm
- * - Kevin Labrie : fonction effectuerAjoutPersonne
- * - Vincent Philippon : fonction effectuerSupPersonne, ajustement final
- * - Mathieu Larocque : fonction effectuerAjoutFilm, effectuerSupFilm, effectuerAjoutDescFilm et merge du document
+ * - Guillaume Harvey : 
+ * - Kevin Labrie : 
+ * - Vincent Philippon : 
+ * - Mathieu Larocque : 
  * 
  */
 
