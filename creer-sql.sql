@@ -46,6 +46,8 @@ CREATE TABLE Serie (
 	titre VARCHAR(255) NOT NULL,
 	anneeSortie DATE NOT NULL,
 	realisateur VARCHAR(255) NOT NULL,
+	description VARCHAR(255),
+	nbSaison INTEGER NOT NULL,
 	CONSTRAINT seriePK PRIMARY KEY (titre),
 	CONSTRAINT serieFK FOREIGN KEY (realisateur) REFERENCES Personne(nom)
 );
