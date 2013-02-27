@@ -1,0 +1,68 @@
+package tp3;
+
+import java.sql.Date;
+<<<<<<< HEAD
+import java.sql.SQLException;
+import java.util.List;
+
+=======
+import java.util.List;
+
+/**
+ *
+ * @author guillaume
+ */
+>>>>>>> 20941e1211db362f411c45a6a99419865b494ebb
+class RoleFilm {
+    
+    private Connexion cx;
+
+    public RoleFilm(Connexion cx) throws SQLException {
+        this.cx = cx;
+        init();
+    }
+
+    Connexion getConnexion() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    void ajouter(String acteur, String titre, Date anneeSortie) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    boolean existe(String acteur, String titre, Date anneeSortie) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    List<TupleRoleFilm> getActeurs(String titre, Date anneeSortie) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    List<TupleRoleFilm> getFilmWhereActeur(String nom) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+    
+    private void init() throws SQLException {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public Connexion getConnexion() {
+        return cx;
+    }
+
+    public boolean existe(String nomActeur, String titre, Date anneeSortie) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void ajouter(String nomActeur, String titre, Date anneeSortie) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<TupleRoleFilm> getActeurs(String titre, Date anneeSortie) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<TupleRoleFilm> getFilmsDActeur(String nom) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+}

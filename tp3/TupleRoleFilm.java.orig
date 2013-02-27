@@ -1,0 +1,37 @@
+<<<<<<< HEAD
+package tp3;
+
+public class TupleRoleFilm {
+
+    
+    public String getTitre() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public String getNom() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+}
+=======
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package tp3;
+
+/**
+ *
+ * @author guillaume
+ */
+class TupleRoleFilm {
+
+    boolean getNom() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    String getTitre() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+}
+>>>>>>> 20941e1211db362f411c45a6a99419865b494ebb
