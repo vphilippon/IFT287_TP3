@@ -196,7 +196,8 @@ public class Main {
             cx.rollback();
         }
     }
-
+    // comment because not needed but we can use the code in gestionnaire
+/*
     public static void effectuerAjoutPersonne(String nom, Date dateNaissance, 
             String lieuNaissance, int sexe) throws SQLException, Tp3Exception {
         
@@ -434,7 +435,7 @@ public class Main {
         }
 
     }
-
+*/
     /** Les methodes suivantes n'ont pas besoin d'etre modifiees */
 
     public static BufferedReader ouvrirFichier(String[] args)
