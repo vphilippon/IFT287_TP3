@@ -19,4 +19,8 @@ class GestionEpisode {
     void ajoutEpisode(Date readDate, String readString, Date readDate0, String readString0, String readString1, String readString2, String readString3) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+    void ajoutEpisode(String readString, String readString0, Date readDate, int readInt, int readInt0, String readString1, String readString2) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }
