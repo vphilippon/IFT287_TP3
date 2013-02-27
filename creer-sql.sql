@@ -1,0 +1,82 @@
+/*
+Creer BD
+	Guillaume Harvey
+	Kevin Labrie
+	Mathieu Larocque
+	Vincent Philippon
+*/
+
+
+/* PERSONNE */
+DROP TABLE IF EXISTS Personne CASCADE;
+CREATE TABLE Personne (
+	nom VARCHAR(255) NOT NULL,
+	dateNaissance DATE NOT NULL,
+	lieuNaissance VARCHAR(255),
+	sexe INTEGER NOT NULL CHECK(sexe = 0 OR sexe = 1),
+	CONSTRAINT personnePK PRIMARY KEY (nom)
+);
+
+ /* FILM */ 
+DROP TABLE IF EXISTS Film CASCADE;
+CREATE TABLE Film (
+	titre VARCHAR(255) NOT NULL,
+	dateSortie DATE NOT NULL,
+	description VARCHAR(255),
+	duree INTEGER,
+	realisateur VARCHAR(255) NOT NULL,
+	CONSTRAINT filmPK PRIMARY KEY (titre, dateSortie),
+	CONSTRAINT filmFK FOREIGN KEY (realisateur) REFERENCES Personne(nom)
+ );
+  
+/* ROLE_FILM */
+DROP TABLE IF EXISTS RoleFilm CASCADE;
+CREATE TABLE RoleFilm (
+	nomActeur VARCHAR(255) NOT NULL,
+	roleActeur VARCHAR(255) NOT NULL,
+	filmTitre VARCHAR(255) NOT NULL,
+	anneeSortie DATE NOT NULL,
+	CONSTRAINT rolePK PRIMARY KEY (nomActeur, filmTitre, anneeSortie),
+	CONSTRAINT roleTitreFK FOREIGN KEY (filmTitre, anneeSortie) REFERENCES Film(titre, dateSortie)
+);
+  
+/* SERIE */
+DROP TABLE IF EXISTS Seire CASCADE;
+CREATE TABLE Serie (
+	titre VARCHAR(255) NOT NULL,
+	anneeSortie DATE NOT NULL,
+	realisateur VARCHAR(255) NOT NULL,
+	CONSTRAINT seriePK PRIMARY KEY (titre),
+	CONSTRAINT serieFK FOREIGN KEY (realisateur) REFERENCES Personne(nom)
+);
+	
+/* EPISODE */
+DROP TABLE IF EXISTS Episode CASCADE;
+CREATE TABLE Episode (
+	titre VARCHAR(255) NOT NULL,
+	titreSerie VARCHAR(255) NOT NULL,
+	anneeSortieSerie DATE NOT NULL,
+	noSaison INTEGER NOT NULL,
+	noEpisode INTEGER NOT NULL, 
+	description VARCHAR(255),
+	dateDiffusion DATE NOT NULL,
+	CONSTRAINT episodePK PRIMARY KEY (titre, titreSerie, anneeSortieSerie),
+	CONSTRAINT episodeFK FOREIGN KEY (titreSerie, anneeSortieSerie) REFERENCES Serie(titre, anneeSortie),
+	CONSTRAINT noSaisonCHK CHECK(noSaison > 0),
+	CONSTRAINT noEpisodeCHK CHECK (noEpisode > 0);
+);
+
+/* ROLE_EPISODE*/
+DROP TABLE IF EXISTS RoleEpisode CASCADE;
+CREATE TABLE RoleEpisode(
+	nomActeur VARCHAR(255) NOT NULL,
+	roleActeur VARCHAR(255) NOT NULL,
+	titreSerie VARCHAR(255) NOT NULL,
+	titreEpisode VARCHAR(255) NOT NULL,
+	noSaison INTEGER NOT NULL,
+	noEpisode INTEGER NOT NULL,
+	dateDiffusion DATE NOT NULL,
+	CONSTRAINT rolePK PRIMARY KEY (nomActeur, titreSerie, noSaison, noEpisode),
+	CONSTRAINT roleTitreFK FOREIGN KEY (titreEpisode, dateDiffusion, noSaison, noEpisode) REFERENCES Episode(titre, dateDiffusion)
+);
+	
