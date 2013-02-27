@@ -110,43 +110,43 @@ public class Main {
             StringTokenizer tokenizer = new StringTokenizer(transaction, " ");
             if (tokenizer.hasMoreTokens()) {
                 String command = tokenizer.nextToken();
-                if ("ajoutPersonne".startsWith(command))
+                if ("ajoutPersonne".startsWith(command)){
                     gestionTp3.gestionPersonne.ajoutPersonne(readString(tokenizer) /* nom */,
                             readDate(tokenizer) /* dateNaissance */,
                             readString(tokenizer) /* lieuNaissance */,
                             readInt(tokenizer) /* sexe */);
-                else if ("supPersonne".startsWith(command))
+                }else if ("supPersonne".startsWith(command)){
                     gestionTp3.gestionPersonne.supPersonne(readString(tokenizer) /* nom */);
                 
-                else if ("ajoutFilm".startsWith(command))
+                }else if ("ajoutFilm".startsWith(command)){
                     gestionTp3.gestionFilm.ajoutFilm(readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */,
                             readString(tokenizer) /* realisateur */);
                 
-                else if ("supFilm".startsWith(command))
+                }else if ("supFilm".startsWith(command)){
                     gestionTp3.gestionFilm.supFilm(readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */);
                 
-                else if ("ajoutDescFilm".startsWith(command))
+                }else if ("ajoutDescFilm".startsWith(command)){
                     gestionTp3.gestionFilm.ajoutDescFilm(readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */,
                             readString(tokenizer) /* description */,
                             readInt(tokenizer) /* duree */);
                 
-                else if ("ajoutActeurFilm".startsWith(command))
+                }else if ("ajoutActeurFilm".startsWith(command)){
                     gestionTp3.gestionRoleFilm.ajoutActeurFilm(
                             readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */,
                             readString(tokenizer) /* nom */,
                             readString(tokenizer) /* role */);
                 
-                else if ("ajoutSerie".startsWith(command))
+                }else if ("ajoutSerie".startsWith(command)){
                     gestionTp3.gestionSerie.ajoutSerie(
                             readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */,
                             readString(tokenizer) /* nom realisateur */);
                 
-                else if ("ajoutEpisode".startsWith(command))
+                }else if ("ajoutEpisode".startsWith(command)){
                     gestionTp3.gestionEpisode.ajoutEpisode(
                             readDate(tokenizer) /* titre episode */,
                             readString(tokenizer) /* titre serie */,
@@ -156,7 +156,7 @@ public class Main {
                             readString(tokenizer) /* description */,
                             readString(tokenizer) /* date episode */);
                 
-                else if ("ajoutActeurEpisode".startsWith(command))
+                }else if ("ajoutActeurEpisode".startsWith(command)){
                     gestionTp3.gestionRoleEpisode.ajoutRole(
                             readString(tokenizer) /* titre serie */,
                             readDate(tokenizer) /* annee serie */,
@@ -165,29 +165,30 @@ public class Main {
                             readString(tokenizer) /* nom acteur */,
                             readString(tokenizer) /* Role de l acteur */);
                 
-                else if ("listeActeursSerie".startsWith(command))
+                }else if ("listeActeursSerie".startsWith(command)){
                     gestionTp3.gestionSerie.getActeurFromSerie(
                             readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */);
                 
-                else if ("listeSerieActeur".startsWith(command))
+                }else if ("listeSerieActeur".startsWith(command)){
                     gestionTp3.gestionSerie.getSerieWithActeur(
                             readString(tokenizer) /* nom */);
                 
-                else if ("listeRealisateur".startsWith(command))
+                }else if ("listeRealisateur".startsWith(command)){
                     gestionTp3.gestionFilm.listeRealisateur();
                 
-                else if ("listeActeurFilm".startsWith(command))
+                }else if ("listeActeurFilm".startsWith(command)){
                     gestionTp3.gestionRoleFilm.getActeurFromFilm(
                             readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */);
                 
-                else if ("listeFilmsActeur".startsWith(command))
+                }else if ("listeFilmsActeur".startsWith(command)){
                     gestionTp3.gestionRoleFilm.getFilmFromActeur(
                             readString(tokenizer) /* nom */);
                 
-                else
+                }else{
                     System.out.println(" : Transaction non reconnue");
+                }
             }
         } catch (Exception e) {
             System.out.println(" " + e.toString());
