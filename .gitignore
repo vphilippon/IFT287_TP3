@@ -1,8 +1,0 @@
-*.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
-/IFT287_TP3/nbproject/private/
-/nbproject/private/
