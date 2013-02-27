@@ -4,3 +4,4 @@
 *.jar
 *.war
 *.ear
+/IFT287_TP3/nbproject/private/
