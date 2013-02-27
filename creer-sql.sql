@@ -37,7 +37,8 @@ CREATE TABLE RoleFilm (
 	filmTitre VARCHAR(255) NOT NULL,
 	anneeSortie DATE NOT NULL,
 	CONSTRAINT roleFilmPK PRIMARY KEY (nomActeur, filmTitre, anneeSortie),
-	CONSTRAINT roleFilmTitreFK FOREIGN KEY (filmTitre, anneeSortie) REFERENCES Film(titre, dateSortie)
+	CONSTRAINT roleFilmTitreFK FOREIGN KEY (filmTitre, anneeSortie) REFERENCES Film(titre, dateSortie),
+	CONSTRAINT roleFilmActeurFK FOREIGN KEY (nomActeur) REFERENCES Personne(nom)
 );
   
 /* SERIE */
@@ -79,9 +80,8 @@ CREATE TABLE RoleEpisode(
 	noEpisode INTEGER NOT NULL,
 	anneeSortieSerie DATE NOT NULL,
 	CONSTRAINT roleEpisodePK PRIMARY KEY (nomActeur, titreSerie, anneeSortieSerie, noSaison, noEpisode),	
-	
 	CONSTRAINT roleEpisodeFK1 FOREIGN KEY (nomActeur) REFERENCES Personne(nom),	
-	CONSTRAINT roleEpisodeFK2 FOREIGN KEY (titreSerie, noSaison, noEpisode) REFERENCES Episode(titreSerie, noSaison, noEpisode),
+	CONSTRAINT roleEpisodeFK2 FOREIGN KEY (titreSerie, noSaison, noEpisode, anneeSortieSerie) REFERENCES Episode(titreSerie, noSaison, noEpisode, anneeSortieSerie),
 	CONSTRAINT roleEpisodeFK3 FOREIGN KEY (titreSerie, anneeSortieSerie) REFERENCES Serie(titre, anneeSortie)
 );
 
