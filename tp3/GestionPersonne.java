@@ -1,28 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tp3;
 
 import java.sql.Date;
 import java.sql.SQLException;
 
-/*
- * Projet : Tp3
- *
- * Membres :
- * - Guillaume Harvey 12 059 595
- * - Kevin Labrie 12 113 777
- * - Vincent Philippon 12 098 838
- * - Mathieu Larocque 10 129 032
- *
- * Tache :
- * - Guillaume Harvey : 
- * - Kevin Labrie : 
- * - Vincent Philippon : 
- * - Mathieu Larocque : 
- * 
- */
 class GestionPersonne {
     
     private Personne personne;
@@ -33,24 +13,27 @@ class GestionPersonne {
         this.personne = personne;
     }
 
-    void ajoutPersonne(String nom, Date dateNaissance, String lieuNaissance, int sexe) throws SQLException, Tp3Exception, Exception {
-         try{   
-            // Vérifie si la personne existe déja 
-            if (personne.existe(nom)) {
-                throw new Tp3Exception("Film existe deja: " + nom);
-            }
-            personne.ajouter(nom, dateNaissance, lieuNaissance, sexe);
-            cx.commit();
-         }
-         catch(Exception e)
-         {
-             cx.fermer();
-             throw e;
-         }
+    void ajoutPersonne(String nom, Date dateNaissance, String lieuNaissance, int sexe) throws SQLException, Tp3Exception {
+        // Vérifie si la personne existe déja 
+        if (personne.existe(nom)) {
+            throw new Tp3Exception("Personne existe deja: " + nom);
+        }
+        personne.ajouter(nom, dateNaissance, lieuNaissance, sexe);
+        cx.commit();
+        // XXX VP : On veut pas fermer la connexion si ça plante. 
+        // XXX VP : On veut RollBack, dans gestionnaire tp3, en pitchan l'erreur, pas de try ici.
     }
 
-    void supPersonne(String readString) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    
+    void supPersonne(String nom) throws Tp3Exception, SQLException {
+        // Vérifie si la personne existe 
+        if (!personne.existe(nom)) {
+            throw new Tp3Exception("Personne n'existe pas : " + nom);
+        }
+        // XXX AUTRE VALIDATION
+        // S'il n'est le realisateur d'aucun film
+        // S'il n'a aucun role
+        
+        personne.enlever(nom);
+        cx.commit();
     }
 }

@@ -1,6 +1,7 @@
 package tp3;
 
 import java.sql.Date;
+import java.sql.SQLException;
 
 class GestionRoleEpisode  {
     
@@ -10,14 +11,14 @@ class GestionRoleEpisode  {
     private RoleEpisode roleEpisode;
     private Connexion cx;
 
-    GestionRoleEpisode(RoleEpisode re, Serie s, Personne p) 
+    GestionRoleEpisode(Episode e, RoleEpisode re, Serie s, Personne p) 
         throws Tp3Exception{
         this.serie = s;
-        this.episode = e;
+        this.episode = e; /// XXX VP : Empechait de compiler, j'ai ajouter param aux constr. checker si ok.
         this.personne = p;
         this.roleEpisode = re;
-        if(serie.getConnexion() != episode.getConnexion() && 
-           serie.getConnexion() != personne.getConnexion() && 
+        if(serie.getConnexion() != episode.getConnexion() ||  // XXX VP : || au lieu de &&
+           serie.getConnexion() != personne.getConnexion() || 
            serie.getConnexion() != roleEpisode.getConnexion()){
             throw new Tp3Exception("Connection non valide");
         }
@@ -25,7 +26,7 @@ class GestionRoleEpisode  {
     }    
 
     void ajoutRole(String serieTitre, Date serieDate, int noSaison, int noEpisode, String acteur, String roleActeur) 
-        throws Tp3Exception{
+        throws Tp3Exception, SQLException{
         if(serie.existe(serieTitre, serieDate )){
             if(episode.existe(serieTitre, serieDate, noSaison, noEpisode)){
                 if(personne.existe(acteur)){
@@ -33,6 +34,7 @@ class GestionRoleEpisode  {
                     if(tupleActeur.getDateNaissance().before(serieDate)){
                         if(!roleEpisode.existe(serieTitre, serieDate, noSaison, noEpisode, acteur, roleActeur)){
                             roleEpisode.ajouter(serieTitre, serieDate, noSaison, noEpisode, acteur, roleActeur);
+                            cx.commit(); // XXX VP : Ajouter ici, vérifier si ok
                         }
                     }else{
                         throw new Tp3Exception("L'acteur : " + acteur + " joue deja dans l'episode " +

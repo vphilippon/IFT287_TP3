@@ -1,5 +1,6 @@
 package tp3;
 
+import java.sql.Date;
 import java.sql.SQLException;
 
 class Episode {
@@ -17,6 +18,10 @@ class Episode {
 
     public Connexion getConnexion() {
         return cx;
+    }
+
+    public boolean existe(String serieTitre, Date serieDate, int noSaison, int noEpisode) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
     
 }

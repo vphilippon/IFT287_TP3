@@ -145,7 +145,7 @@ public class Main {
                             readInt(tokenizer) /* no saison */,
                             readInt(tokenizer) /* no episode */,
                             readString(tokenizer) /* description */,
-                            readString(tokenizer) /* date episode */);
+                            readDate(tokenizer) /* date episode */);
                 
                 }else if ("ajoutActeurEpisode".startsWith(command)){
                     gestionTp3.gestionRoleEpisode.ajoutRole(
@@ -154,7 +154,7 @@ public class Main {
                             readInt(tokenizer) /* no saison */,
                             readInt(tokenizer) /* no episode */,
                             readString(tokenizer) /* nom acteur */,
-                            readString(tokenizer) /* Role de l acteur */);
+                            readString(tokenizer) /* Role de l'acteur */);
                 
                 }else if ("listeActeursSerie".startsWith(command)){
                     gestionTp3.gestionSerie.getActeurFromSerie(

@@ -1,17 +1,39 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tp3;
 
-/**
- *
- * @author guillaume
- */
-class RoleFilm {
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.List;
 
-    RoleFilm(Connexion cx) {
-        throw new UnsupportedOperationException("Not yet implemented");
+class RoleFilm {
+    
+    private Connexion cx;
+
+    public RoleFilm(Connexion cx) throws SQLException {
+        this.cx = cx;
+        init();
     }
     
+    private void init() throws SQLException {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public Connexion getConnexion() {
+        return cx;
+    }
+
+    public boolean existe(String nomActeur, String titre, Date anneeSortie) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void ajouter(String nomActeur, String titre, Date anneeSortie) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<TupleRoleFilm> getActeurs(String titre, Date anneeSortie) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<TupleRoleFilm> getFilmsDActeur(String nom) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }
