@@ -25,9 +25,9 @@ public class Main {
 
     private static Connexion cx;
 
-    private static PreparedStatement pstmCheckPersonne;
-    private static PreparedStatement pstmInsertPersonne;
-    private static PreparedStatement pstmDeletePersonne;
+    private static PreparedStatement pstmGetPersonne; // XXX DONE
+    private static PreparedStatement pstmInsertPersonne; // XXX DONE
+    private static PreparedStatement pstmDeletePersonne; // XXX DONE
 
     private static PreparedStatement pstmCountRole;
     private static PreparedStatement pstmCountRealisateur;
@@ -47,7 +47,7 @@ public class Main {
      */
     public static void main(String[] args) throws Exception {
         if (args.length < 3) {
-            System.out.println("Usage: java tp2.Main <bd> <user> <password> [<fichier-transactions>]");
+            System.out.println("Usage: java tp3.Main <bd> <user> <password> [<fichier-transactions>]");
             return;
         }
         cx = new Connexion("postgres", args[0], args[1], args[2]);
@@ -61,14 +61,14 @@ public class Main {
     }
 
     private static void initStatement() throws SQLException {
-        pstmCheckPersonne = cx.getConnection().prepareStatement(
-                "SELECT * FROM Personne WHERE nom = ?");
+        pstmGetPersonne = cx.getConnection().prepareStatement(
+                "SELECT * FROM Personne WHERE nom = ?"); // XXX DONE
 
         pstmInsertPersonne = cx.getConnection().prepareStatement(
-                "INSERT INTO Personne (nom, datenaissance, lieunaissance, sexe) VALUES(?, ?, ?, ?)");
+                "INSERT INTO Personne (nom, datenaissance, lieunaissance, sexe) VALUES(?, ?, ?, ?)"); // XXX DONE
         
         pstmDeletePersonne = cx.getConnection().prepareStatement(
-                "DELETE FROM Personne WHERE nom = ?");
+                "DELETE FROM Personne WHERE nom = ?"); // XXX DONE
 
         pstmCheckFilm = cx.getConnection().prepareStatement(
                 "SELECT * FROM Film WHERE titre = ? AND dateSortie = ?");
@@ -152,8 +152,8 @@ public class Main {
                     + "', date de naissance = '" + dateNaissance
                     + "', sexe = '" + sexe + "').\n");
         } else {
-            pstmCheckPersonne.setString(1, nom);
-            ResultSet rs = pstmCheckPersonne.executeQuery();
+            pstmGetPersonne.setString(1, nom);
+            ResultSet rs = pstmGetPersonne.executeQuery();
 
             if (!rs.next()) {
                 pstmInsertPersonne.setString(1, nom);
@@ -176,8 +176,8 @@ public class Main {
             throw new Tp3Exception("Le nom est invalide (nom = '" + nom + "'.\n");
         } else {
 
-            pstmCheckPersonne.setString(1, nom);
-            ResultSet rs = pstmCheckPersonne.executeQuery();
+            pstmGetPersonne.setString(1, nom);
+            ResultSet rs = pstmGetPersonne.executeQuery();
 
             // Si la personne existe
             if (rs.next()) {
@@ -223,8 +223,8 @@ public class Main {
             pstmCheckFilm.setDate(2, dateSortie);
             ResultSet rs = pstmCheckFilm.executeQuery();
             if (!rs.next()) {
-                pstmCheckPersonne.setString(1, realisateur);
-                rs = pstmCheckPersonne.executeQuery();
+                pstmGetPersonne.setString(1, realisateur);
+                rs = pstmGetPersonne.executeQuery();
                 if (rs.next()) {
                     pstmInsertFilm.setString(1, titre);
                     pstmInsertFilm.setDate(2, dateSortie);
@@ -338,7 +338,7 @@ public class Main {
             pstmCheckActeurFilm.setString(1, titre);
             pstmCheckActeurFilm.setDate(2, anneeSortie);
             pstmCheckActeurFilm.setString(3, acteur);
-            pstmCheckPersonne.setString(1, acteur);
+            pstmGetPersonne.setString(1, acteur);
 
             pstmCheckFilm.setString(1, titre);
             pstmCheckFilm.setDate(2, anneeSortie);
@@ -346,7 +346,7 @@ public class Main {
             ResultSet rs = pstmCheckActeurFilm.executeQuery();
 
             if (!rs.next()) {
-                rs = pstmCheckPersonne.executeQuery();
+                rs = pstmGetPersonne.executeQuery();
 
                 if (rs.next()) {
                     Date acteurDate = rs.getDate("dateNaissance");
