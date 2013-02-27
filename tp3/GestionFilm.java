@@ -50,19 +50,15 @@ class GestionFilm {
             if (film.existe(titre, dateSortie)) {
                 throw new Tp3Exception("Film existe deja: " + titre + " " + dateSortie);
             }
-            else
-                // S'assure que le réalisateur existe
-                if (!personne.existe(realisateur)){
-                    throw new Tp3Exception("Le réalisateur n'existe pas: " + realisateur);
-                }
-                else 
-                {
-                    Date realisateurNaissance = personne.getPersonne(realisateur).getDateNaissance();
-                    // S'assure que le réalisateur est né avant la sortie du film
-                    if (realisateurNaissance.after(dateSortie)){
-                        throw new Tp3Exception("Le réalisateur est né le: " + realisateurNaissance + " et ne peut pas participer à un film créé le: " + dateSortie);
-                    }
-                }  
+            // S'assure que le réalisateur existe
+            if (!personne.existe(realisateur)){
+                throw new Tp3Exception("Le réalisateur n'existe pas: " + realisateur);
+            }
+                Date realisateurNaissance = personne.getPersonne(realisateur).getDateNaissance();
+                // S'assure que le réalisateur est né avant la sortie du film
+            if (realisateurNaissance.after(dateSortie)){
+                throw new Tp3Exception("Le réalisateur est né le: " + realisateurNaissance + " et ne peut pas participer à un film créé le: " + dateSortie);
+            }  
             // Ajout du livre dans la table des livres
             film.ajouter(titre, dateSortie, realisateur);
             cx.commit();
