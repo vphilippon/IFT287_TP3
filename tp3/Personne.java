@@ -38,5 +38,9 @@ public class Personne {
         rs.close();
         return personneExiste;
     }
+    
+    public TuplePersonne getPersonne(String nom) throws SQLException {
+        throw new UnsupportedOperationException();
+    }
 
 }
