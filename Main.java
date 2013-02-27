@@ -1,7 +1,7 @@
 package tp3;
 
 /*
- * Projet : Tp2
+ * Projet : Tp3
  *
  * Membres :
  * - Guillaume Harvey 12 059 595
