@@ -86,7 +86,8 @@ class GestionFilm {
                     throw new Tp3Exception("Film n'existe pas: " + titre + " " + dateSortie);
                 }
             // Supression du livre dans la table des livres
-            film.enlever(titre, dateSortie);
+            int nb = film.enlever(titre, dateSortie);
+            System.out.println(nb + " film ajouté");
             cx.commit();
         }
         catch (Exception e)

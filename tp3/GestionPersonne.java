@@ -33,15 +33,20 @@ class GestionPersonne {
         this.personne = personne;
     }
 
-    void ajoutPersonne(String nom, Date dateNaissance, String lieuNaissance, int sexe) throws SQLException, Tp3Exception {
-     /*    try{   
+    void ajoutPersonne(String nom, Date dateNaissance, String lieuNaissance, int sexe) throws SQLException, Tp3Exception, Exception {
+         try{   
             // Vérifie si la personne existe déja 
             if (personne.existe(nom)) {
                 throw new Tp3Exception("Film existe deja: " + nom);
             }
             personne.ajouter(nom, dateNaissance, lieuNaissance, sexe);
             cx.commit();
-    */
+         }
+         catch(Exception e)
+         {
+             cx.fermer();
+             throw e;
+         }
     }
 
     void supPersonne(String readString) {

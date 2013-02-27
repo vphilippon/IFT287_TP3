@@ -28,7 +28,7 @@ class Film {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    void enlever(String titre, Date dateSortie) {
+    int enlever(String titre, Date dateSortie) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
     
