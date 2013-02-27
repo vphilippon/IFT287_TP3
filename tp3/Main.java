@@ -53,7 +53,7 @@ public class Main {
             return;
         }
         cx = new Connexion("postgres", args[0], args[1], args[2]);
-        initStatement();
+        
         BufferedReader reader = ouvrirFichier(args);
         String transaction = lireTransaction(reader);
         while (!finTransaction(transaction)) {
@@ -61,7 +61,8 @@ public class Main {
             transaction = lireTransaction(reader);
         }
     }
-
+    //comment unsupported version this does not belong here anymore :(
+    /*
     private static void initStatement() throws SQLException {
         pstmCheckPersonne = cx.getConnection().prepareStatement(
                 "SELECT * FROM Personne WHERE nom = ?");
@@ -99,7 +100,8 @@ public class Main {
         pstmCountRole = cx.getConnection().prepareStatement(
                 "SELECT * FROM RoleFilm WHERE nomActeur = ?");
     }
-
+    */
+    
     /**
      * Decodage et traitement d'une transaction :
      */
