@@ -352,7 +352,7 @@ public class Main {
                 if (rs.next()) {
                     Date acteurDate = rs.getDate("dateNaissance");
                 
-                    if( acteurDate > anneeSortie){
+                    if( acteurDate <= anneeSortie){
                         rs = pstmCheckFilm.executeQuery();
 
                         if (rs.next()) {
