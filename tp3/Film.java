@@ -4,6 +4,8 @@
  */
 package tp3;
 
+import java.sql.Date;
+
 /**
  *
  * @author guillaume
@@ -17,5 +19,12 @@ class Film {
     Connexion getConnexion() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-    
+
+    boolean existe(String titre, Date dateSortie) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    void ajouter(String titre, Date dateSortie, String realisateur) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }

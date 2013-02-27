@@ -5,6 +5,7 @@
 package tp3;
 
 import java.sql.Date;
+import java.sql.SQLException;
 
 /**
  *
@@ -31,15 +32,41 @@ class GestionFilm {
         this.personne = personne;
     }
 
-    void ajoutFilm(String readString, Date readDate, String readString0) {
+    void ajoutFilm(String titre, Date dateSortie, String realisateur) throws SQLException, Tp3Exception, Exception {
+        try {
+            // Vérifie si le livre existe déja 
+            if (film.existe(titre, dateSortie)) {
+                throw new Tp3Exception("Film existe deja: " + titre + " " + dateSortie);
+            }
+            else
+                // Vérifie si le réalisateur n'existe pas
+                if (!personne.existe(realisateur)){
+                    throw new Tp3Exception("Le réalisateur n'existe pas: " + realisateur);
+                }
+                else 
+                {
+                    Date realisateurNaissance = personne.getPersonne(realisateur).getDateNaissance();
+                    // Verifie si le réalisateur est né après la sortie du film
+                    if (realisateurNaissance.after(dateSortie)){
+                        throw new Tp3Exception("Le réalisateur est né le: " + realisateurNaissance + " et ne peut pas participer à un film créé le: " + dateSortie);
+                    }
+                }  
+            // Ajout du livre dans la table des livres
+            film.ajouter(titre, dateSortie, realisateur);
+            cx.commit();
+        }
+    catch (Exception e)
+        {
+            cx.fermer();
+            throw e;
+        }
+    }
+
+    void supFilm(String titre, Date dateSortie) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    void supFilm(String readString, Date readDate) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    void ajoutDescFilm(String readString, Date readDate, String readString0, int readInt) {
+    void ajoutDescFilm(String titre, Date anneeSortie, String description, int duree) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
