@@ -115,6 +115,7 @@ public class Main {
                             readDate(tokenizer) /* dateNaissance */,
                             readString(tokenizer) /* lieuNaissance */,
                             readInt(tokenizer) /* sexe */);
+                    
                 }else if ("supPersonne".startsWith(command)){
                     gestionTp3.gestionPersonne.supPersonne(readString(tokenizer) /* nom */);
                 
@@ -174,7 +175,7 @@ public class Main {
                     gestionTp3.gestionSerie.getSerieWithActeur(
                             readString(tokenizer) /* nom */);
                 
-                }else if ("listeRealisateur".startsWith(command)){
+                }else if ("listeRealisateurs".startsWith(command)){
                     gestionTp3.gestionFilm.listeRealisateur();
                 
                 }else if ("listeActeurFilm".startsWith(command)){
