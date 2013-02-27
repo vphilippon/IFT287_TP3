@@ -148,11 +148,11 @@ public class Main {
                 
                 }else if ("ajoutEpisode".startsWith(command)){
                     gestionTp3.gestionEpisode.ajoutEpisode(
-                            readDate(tokenizer) /* titre episode */,
+                            readString(tokenizer) /* titre episode */,
                             readString(tokenizer) /* titre serie */,
                             readDate(tokenizer) /* annee serie */,
-                            readString(tokenizer) /* no saison */,
-                            readString(tokenizer) /* no episode */,
+                            readInt(tokenizer) /* no saison */,
+                            readInt(tokenizer) /* no episode */,
                             readString(tokenizer) /* description */,
                             readString(tokenizer) /* date episode */);
                 
@@ -160,8 +160,8 @@ public class Main {
                     gestionTp3.gestionRoleEpisode.ajoutRole(
                             readString(tokenizer) /* titre serie */,
                             readDate(tokenizer) /* annee serie */,
-                            readString(tokenizer) /* no saison */,
-                            readString(tokenizer) /* no episode */,
+                            readInt(tokenizer) /* no saison */,
+                            readInt(tokenizer) /* no episode */,
                             readString(tokenizer) /* nom acteur */,
                             readString(tokenizer) /* Role de l acteur */);
                 
