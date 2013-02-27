@@ -61,15 +61,25 @@ class GestionFilm {
             throw e;
         }
     }
-
+    /**
+     * 
+     * @param titre
+     * @param dateSortie 
+     */
     void supFilm(String titre, Date dateSortie) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-
+    /**
+     * 
+     * @param titre
+     * @param anneeSortie
+     * @param description
+     * @param duree 
+     */
     void ajoutDescFilm(String titre, Date anneeSortie, String description, int duree) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-
+    
     void listeRealisateur() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
