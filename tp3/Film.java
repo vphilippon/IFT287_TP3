@@ -13,5 +13,9 @@ class Film {
     Film(Connexion cx) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+    Connexion getConnexion() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
     
 }
