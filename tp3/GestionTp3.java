@@ -1,14 +1,34 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tp3;
 import java.sql.*;
-
-/**
+/*
+ * Projet : Tp3
  *
- * @author guillaume
+ * Membres :
+ * - Guillaume Harvey 12 059 595
+ * - Kevin Labrie 12 113 777
+ * - Vincent Philippon 12 098 838
+ * - Mathieu Larocque 10 129 032
+ *
+ * Tache :
+ * - Guillaume Harvey : 
+ * - Kevin Labrie : 
+ * - Vincent Philippon : 
+ * - Mathieu Larocque : 
+ * 
  */
+
+// Copié du fichier GestionBibliotheque.java fournit sur le site: http://pages.usherbrooke.ca/vducharme/ift287/
+/**
+  * Ouvre une connexion avec la BD relationnelle et
+  * alloue les gestionnaires de transactions et de tables.
+  * <pre>
+  * 
+  * @param serveur SQL
+  * @param bd nom de la bade de données
+  * @param user user id pour établir une connexion avec le serveur SQL
+  * @param pwd mot de passe pour le user id
+  *</pre>
+  */
 public class GestionTp3 {
     public Connexion cx;
     public Film film;
@@ -33,7 +53,17 @@ public class GestionTp3 {
     episode = new Episode(cx);
     roleEpisode = new RoleEpisode(cx);
     gestionFilm = new GestionFilm(film, personne);
+    gestionPersonne = new GestionPersonne(personne);
+    gestionRoleFilm = new GestionRoleFilm(roleFilm, film, personne);
+    gestionSerie = new GestionSerie(serie, personne);
+    gestionEpisode = new GestionEpisode(episode, serie, personne);
+    gestionRoleEpisode = new GestionRoleEpisode(roleEpisode, serie, personne);
+    }
     
+    public void fermer() throws SQLException
+    {
+        // fermeture de la connexion
+        cx.fermer();
     }
     
     
