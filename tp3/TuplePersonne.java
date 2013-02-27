@@ -8,6 +8,13 @@ public class TuplePersonne {
     private String lieuNaissance;
     private int sexe;
     
+    public TuplePersonne(String nom, Date dateNaissance, String lieuNaissance, int sexe){
+        this.nom = nom;
+        this.dateNaissance = dateNaissance;
+        this.lieuNaissance = lieuNaissance;
+        this.sexe = sexe;
+    }
+    
     public String getNom() {
         return nom;
     }
