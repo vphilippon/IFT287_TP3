@@ -18,8 +18,8 @@ package tp3;
  */
 
 import java.io.*;
-import java.util.StringTokenizer;
 import java.sql.*;
+import java.util.StringTokenizer;
 
 public class Main {
 
