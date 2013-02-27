@@ -4,6 +4,8 @@
  */
 package tp3;
 
+import java.sql.Date;
+
 /**
  *
  * @author guillaume
@@ -11,6 +13,18 @@ package tp3;
 class RoleEpisode {
 
     RoleEpisode(Connexion cx) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    Connexion getConnexion() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    boolean existe(String serieTitre, Date serieDate, int noSaison, int noEpisode, String acteur, String roleActeur) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    void ajouter(String serieTitre, Date serieDate, int noSaison, int noEpisode, String acteur, String roleActeur) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
     

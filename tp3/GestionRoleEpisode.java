@@ -1,6 +1,7 @@
 package tp3;
 
 import java.sql.Date;
+import java.sql.SQLException;
 
 class GestionRoleEpisode  {
     
@@ -10,7 +11,7 @@ class GestionRoleEpisode  {
     private RoleEpisode roleEpisode;
     private Connexion cx;
 
-    GestionRoleEpisode(RoleEpisode re, Serie s, Personne p) 
+    GestionRoleEpisode(RoleEpisode re, Serie s, Episode e, Personne p) 
         throws Tp3Exception{
         this.serie = s;
         this.episode = e;
@@ -25,7 +26,7 @@ class GestionRoleEpisode  {
     }    
 
     void ajoutRole(String serieTitre, Date serieDate, int noSaison, int noEpisode, String acteur, String roleActeur) 
-        throws Tp3Exception{
+        throws Tp3Exception, SQLException{
         if(serie.existe(serieTitre, serieDate )){
             if(episode.existe(serieTitre, serieDate, noSaison, noEpisode)){
                 if(personne.existe(acteur)){
