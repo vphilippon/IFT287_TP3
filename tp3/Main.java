@@ -6,7 +6,7 @@ package tp3;
  * Membres :
  * - Guillaume Harvey 12 059 595
  * - Kevin Labrie 12 113 777
- * - Vincent Philippon 12 098 838 Le petit penis de vincent
+ * - Vincent Philippon 12 098 838
  * - Mathieu Larocque 10 129 032
  *
  * Tache :
