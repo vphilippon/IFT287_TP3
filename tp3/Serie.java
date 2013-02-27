@@ -1,17 +1,22 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tp3;
 
-/**
- *
- * @author guillaume
- */
+import java.sql.SQLException;
+
 class Serie {
 
-    Serie(Connexion cx) {
+    private Connexion cx;
+    
+    public Serie(Connexion cx) throws SQLException {
+        this.cx = cx;
+        init();
+    }
+
+    private void init() throws SQLException {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-    
+
+    public Connexion getConnexion() {
+        return cx;
+    }
+
 }

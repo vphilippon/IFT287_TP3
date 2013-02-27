@@ -19,7 +19,7 @@ import java.sql.*;
  * Pre-condition
  *   le driver JDBC approprie doit etre accessible.
  * 
- * Post-condition 
+ * Post-condition
  *   la connexion est ouverte en mode autocommit false et serialisable, 
  *   (s'il est supporte par le serveur).
  * </pre>

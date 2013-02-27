@@ -25,10 +25,6 @@ public class Main {
 
     private static Connexion cx;
 
-    private static PreparedStatement pstmGetPersonne; // XXX DONE
-    private static PreparedStatement pstmInsertPersonne; // XXX DONE
-    private static PreparedStatement pstmDeletePersonne; // XXX DONE
-
     private static PreparedStatement pstmCountRole;
     private static PreparedStatement pstmCountRealisateur;
 
@@ -64,14 +60,6 @@ public class Main {
     //comment unsupported version this does not belong here anymore :(
     /*
     private static void initStatement() throws SQLException {
-        pstmGetPersonne = cx.getConnection().prepareStatement(
-                "SELECT * FROM Personne WHERE nom = ?"); // XXX DONE
-
-        pstmInsertPersonne = cx.getConnection().prepareStatement(
-                "INSERT INTO Personne (nom, datenaissance, lieunaissance, sexe) VALUES(?, ?, ?, ?)"); // XXX DONE
-        
-        pstmDeletePersonne = cx.getConnection().prepareStatement(
-                "DELETE FROM Personne WHERE nom = ?"); // XXX DONE
 
         pstmCheckFilm = cx.getConnection().prepareStatement(
                 "SELECT * FROM Film WHERE titre = ? AND dateSortie = ?");

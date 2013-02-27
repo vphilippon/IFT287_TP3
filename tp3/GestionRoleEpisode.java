@@ -1,17 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tp3;
 
 import java.sql.Date;
 
-/**
- *
- * @author guillaume
- */
 class GestionRoleEpisode  {
-    
     
     private Serie serie;
     private Episode episode;
@@ -25,12 +16,12 @@ class GestionRoleEpisode  {
         this.episode = e;
         this.personne = p;
         this.roleEpisode = re;
-        if(serie.getConnection() != episode.getConnection() && 
-           serie.getConnection() != personne.getConnection() && 
-           serie.getConnection() != roleEpisode.getConnection()){
+        if(serie.getConnexion() != episode.getConnexion() && 
+           serie.getConnexion() != personne.getConnexion() && 
+           serie.getConnexion() != roleEpisode.getConnexion()){
             throw new Tp3Exception("Connection non valide");
         }
-        this.cx = s.getConnection();
+        this.cx = s.getConnexion();
     }    
 
     void ajoutRole(String serieTitre, Date serieDate, int noSaison, int noEpisode, String acteur, String roleActeur) 
