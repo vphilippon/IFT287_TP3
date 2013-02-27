@@ -5,6 +5,7 @@
 package tp3;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -19,20 +20,20 @@ class GestionRoleFilm {
     private RoleFilm roleFilm;
     private Connexion cx;
     
-    GestionRoleFilm(RoleFilm rf, Film f, Personne p) {
+    GestionRoleFilm(RoleFilm rf, Film f, Personne p) throws Tp3Exception, SQLException, Exception {
         
         this.film = f;
         this.personne = p;
         this.roleFilm = rf;
-        if(film.getConnection() != personne.getConnection() && 
-           film.getConnection() != roleFilm.getConnection()){
+        if(film.getConnexion() != personne.getConnexion() && 
+           film.getConnexion() != roleFilm.getConnexion()){
             throw new Tp3Exception("Connection non valide");
         }
-        this.cx = f.getConnection();
+        this.cx = f.getConnexion();
     } 
 
     void ajoutActeurFilm(String titre, Date anneeSortie, String acteur, String role) 
-            throws Tp3Exception{
+            throws Tp3Exception, SQLException{
         
         if (!Main.isStringNotEmpty(titre) || !Main.isStringNotEmpty(acteur)
                 || !Main.isStringNotEmpty(role)) {
@@ -43,8 +44,8 @@ class GestionRoleFilm {
         } else {
             if (personne.existe(acteur)) {
                 if (film.existe(titre, anneeSortie)) {
-                    TuplePersonne acteur = personne.getPersonne(acteur);
-                    if(acteur.getDateNaissance().before(anneeSortie)){
+                    TuplePersonne tupleActeur = personne.getPersonne(acteur);
+                    if(tupleActeur.getDateNaissance().before(anneeSortie)){
                         if (!roleFilm.existe(acteur, titre, anneeSortie)) {
                             roleFilm.ajouter(acteur, titre, anneeSortie);
                             cx.commit();
@@ -71,9 +72,11 @@ class GestionRoleFilm {
         if(film.existe(titre, anneeSortie)){
             List <TupleRoleFilm> tuples = roleFilm.getActeurs(titre, anneeSortie);
             String output = "";
-            while(!tuples.empty()){
-                output += tuples.front().getNom() + (tuples.size() > 1)?", ":"";
-                tuples.pop_front();
+            int nb = 0;
+            while(nb < tuples.size()){
+                String tmp = (tuples.size() > 1)?", ":"";
+                output += tuples.get(nb).getNom() + tmp;
+                nb++;
             }
             System.out.println(output);
         }else{
@@ -81,13 +84,14 @@ class GestionRoleFilm {
         }
     }
 
-    void getFilmFromActeur(String nom) throws Tp3Exception{
+    void getFilmFromActeur(String nom) throws Tp3Exception, SQLException{
         if(personne.existe(nom)){
-            list<TupleRoleFilm> tuples = roleFilm.getFilmWhereActeur(nom); 
-            string output = "";
-            while(!tuples.empty()){
-                output += tuples.front().getTitre() + (tuples.size() > 1)?", ":"";
-                tuples.pop_front();
+            List<TupleRoleFilm> tuples = roleFilm.getFilmWhereActeur(nom); 
+            String output = "";
+            int nb = 0;
+            while(nb < tuples.size()){
+                String tmp = (tuples.size() > 1)?", ":"";
+                output += tuples.get(nb).getTitre() + tmp;
             }
             System.out.println(output);
         }else{
