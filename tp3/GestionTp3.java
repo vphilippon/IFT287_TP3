@@ -52,7 +52,7 @@ public class GestionTp3 {
         roleEpisode = new RoleEpisode(cx);
         gestionFilm = new GestionFilm(film, personne, roleFilm);
         gestionPersonne = new GestionPersonne(personne, film, roleFilm);
-        gestionSerie = new GestionSerie(serie, personne);
+        gestionSerie = new GestionSerie(serie, episode, personne, roleEpisode);
     }
     
     public void fermer() throws SQLException

@@ -24,4 +24,8 @@ class Serie {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    void ajouter(String titre, Date dateSortie, String realisateur) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
 }

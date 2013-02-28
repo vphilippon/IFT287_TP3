@@ -80,10 +80,10 @@ class GestionPersonne {
             throw new Tp3Exception("L'acteur " + nom + " n'existe pas.");
         }
         List<TupleRoleFilm> tuples = roleFilm.getFilmsDActeur(nom); 
-        StringBuffer output = new StringBuffer(); // XXX VP : Jamais += avec String, c'est mortel (démo si vous voulez)
+        StringBuilder output = new StringBuilder();
         Iterator<TupleRoleFilm> it = tuples.iterator();
         while(it.hasNext()){
-            output.append(it.next().getTitre() + (it.hasNext() ?", ":"."));
+            output.append(it.next().getTitre()).append(it.hasNext() ?", ":".");
         }
         System.out.println(output.toString());
     }
