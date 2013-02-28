@@ -1,6 +1,7 @@
 package tp3;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -97,7 +98,7 @@ class GestionFilm {
     
     public void ajoutActeurFilm(String titre, Date anneeSortie, String nomActeur, String role) throws Exception {
         try {
-        // XXX Partout ou nulle part, à décider
+            // XXX Partout ou nulle part, à décider
 //            if (!Main.isStringNotEmpty(titre) || !Main.isStringNotEmpty(nomActeur)
 //                    || !Main.isStringNotEmpty(role)) {
 //                //une donner est invalide
@@ -130,16 +131,16 @@ class GestionFilm {
         }
     }
     
-    public void afficherActeurDeFilm(String titre, Date anneeSortie) throws Tp3Exception {
+    public void afficherActeurDeFilm(String titre, Date anneeSortie) throws Tp3Exception, SQLException {
         if(!film.existe(titre, anneeSortie)){
             throw new Tp3Exception("Le film " + titre + " paru en " + anneeSortie + " n'existe pas.");
         }
         
         List <TupleRoleFilm> tuples = roleFilm.getActeurs(titre, anneeSortie);
-        StringBuffer output = new StringBuffer(); // XXX VP : Jamais += avec String, c'est mortel (démo si vous voulez)
+        StringBuilder output = new StringBuilder();
         Iterator<TupleRoleFilm> it = tuples.iterator();
         while(it.hasNext()){
-            output.append(it.next().getNom() + (it.hasNext() ?", ":"."));
+            output.append(it.next().getNom()).append(it.hasNext() ?", ":".");
         }
         System.out.println(output.toString());
     }

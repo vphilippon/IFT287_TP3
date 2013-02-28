@@ -51,8 +51,13 @@ public class GestionTp3 {
         episode = new Episode(cx);
         roleEpisode = new RoleEpisode(cx);
         gestionFilm = new GestionFilm(film, personne, roleFilm);
+<<<<<<< HEAD
+        gestionPersonne = new GestionPersonne(personne, film, roleFilm, serie, roleEpisode);
+        gestionSerie = new GestionSerie(serie, personne);
+=======
         gestionPersonne = new GestionPersonne(personne, film, roleFilm);
         gestionSerie = new GestionSerie(serie, episode, personne, roleEpisode);
+>>>>>>> 42641df2c8490281dfdbb3031069a916764c9085
     }
     
     public void fermer() throws SQLException
