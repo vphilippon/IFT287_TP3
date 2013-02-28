@@ -40,10 +40,7 @@ public class GestionTp3 {
     public RoleEpisode roleEpisode;
     public GestionFilm gestionFilm;
     public GestionPersonne gestionPersonne;
-    public GestionRoleFilm gestionRoleFilm;
     public GestionSerie gestionSerie;
-    public GestionEpisode gestionEpisode;
-    public GestionRoleEpisode gestionRoleEpisode;
     
     public GestionTp3(String serveur, String bd, String user, String pwd) throws Tp3Exception, SQLException{
         cx = new Connexion(serveur,bd,user,pwd);
@@ -53,12 +50,9 @@ public class GestionTp3 {
         serie = new Serie(cx);
         episode = new Episode(cx);
         roleEpisode = new RoleEpisode(cx);
-        gestionFilm = new GestionFilm(film, personne);
-        gestionPersonne = new GestionPersonne(personne);
-        gestionRoleFilm = new GestionRoleFilm(roleFilm, film, personne);
+        gestionFilm = new GestionFilm(film, personne, roleFilm);
+        gestionPersonne = new GestionPersonne(personne, film, roleFilm);
         gestionSerie = new GestionSerie(serie, personne);
-        gestionEpisode = new GestionEpisode(episode, serie, personne);
-        gestionRoleEpisode = new GestionRoleEpisode(roleEpisode, serie, episode, personne);
     }
     
     public void fermer() throws SQLException

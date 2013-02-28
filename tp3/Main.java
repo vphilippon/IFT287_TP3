@@ -132,7 +132,7 @@ public class Main {
                             readInt(tokenizer) /* duree */);
                 
                 }else if ("ajoutActeurFilm".startsWith(command)){
-                    gestionTp3.gestionRoleFilm.ajoutActeurFilm(
+                    gestionTp3.gestionFilm.ajoutActeurFilm(
                             readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */,
                             readString(tokenizer) /* nom */,
@@ -145,7 +145,7 @@ public class Main {
                             readString(tokenizer) /* nom realisateur */);
                 
                 }else if ("ajoutEpisode".startsWith(command)){
-                    gestionTp3.gestionEpisode.ajoutEpisode(
+                    gestionTp3.gestionSerie.ajoutEpisode(
                             readString(tokenizer) /* titre episode */,
                             readString(tokenizer) /* titre serie */,
                             readDate(tokenizer) /* annee serie */,
@@ -155,7 +155,7 @@ public class Main {
                             readDate(tokenizer) /* date episode */);
                 
                 }else if ("ajoutActeurEpisode".startsWith(command)){
-                    gestionTp3.gestionRoleEpisode.ajoutRole(
+                    gestionTp3.gestionSerie.ajoutRoleAEpisode(
                             readString(tokenizer) /* titre serie */,
                             readDate(tokenizer) /* annee serie */,
                             readInt(tokenizer) /* no saison */,
@@ -164,24 +164,24 @@ public class Main {
                             readString(tokenizer) /* Role de l'acteur */);
                 
                 }else if ("listeActeursSerie".startsWith(command)){
-                    gestionTp3.gestionSerie.getActeurFromSerie(
+                    gestionTp3.gestionSerie.listeActeursSerie(
                             readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */);
                 
                 }else if ("listeSerieActeur".startsWith(command)){
-                    gestionTp3.gestionSerie.getSerieWithActeur(
+                    gestionTp3.gestionPersonne.listeSerieActeur(
                             readString(tokenizer) /* nom */);
                 
                 }else if ("listeRealisateurs".startsWith(command)){
-                    gestionTp3.gestionFilm.listeRealisateur();
+                    gestionTp3.gestionPersonne.listeRealisateur();
                 
                 }else if ("listeActeurFilm".startsWith(command)){
-                    gestionTp3.gestionRoleFilm.afficherActeurDeFilm(
+                    gestionTp3.gestionFilm.afficherActeurDeFilm(
                             readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */);
                 
                 }else if ("listeFilmsActeur".startsWith(command)){
-                    gestionTp3.gestionRoleFilm.afficherFilmDActeur(
+                    gestionTp3.gestionPersonne.afficherFilmDActeur(
                             readString(tokenizer) /* nom */);
                 
                 }else{

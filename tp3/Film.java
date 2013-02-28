@@ -2,6 +2,7 @@ package tp3;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 class Film {
 
@@ -41,6 +42,10 @@ class Film {
     }
 
     public void listerRealisateur() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<TupleFilm> filmDeRealisateur(String nom) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }
