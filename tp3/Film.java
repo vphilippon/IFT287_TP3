@@ -89,18 +89,15 @@ class Film {
         stmtAjoutDescFilm.setInt(2,duree);
         stmtAjoutDescFilm.setString(3,titre);
         stmtAjoutDescFilm.setDate(4,anneeSortie);
-
-
         try{
-            rs = stmtAjoutDescFilm.executeUpdate();
+            stmtAjoutDescFilm.executeUpdate();
         }catch(SQLException e){
             throw e;
         }
-
     }
 
     public void listerRealisateur() throws SQLException {
-        throw new UnsupportedOperationException("Not yet implemented");
+        
     }
 
     public List<TupleFilm> filmDeRealisateur(String nom) throws SQLException {
