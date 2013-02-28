@@ -33,7 +33,7 @@ class RoleFilm {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public List<TupleRoleFilm> getFilmsDActeur(String nom) {
+    public List<TupleRoleFilm> rolesDeActeur(String nom) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

@@ -52,7 +52,7 @@ class GestionSerie {
         }
     }
 
-    public void listeActeursSerie(String readString, Date readDate) {
+    public void afficherActeursSerie(String readString, Date readDate) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

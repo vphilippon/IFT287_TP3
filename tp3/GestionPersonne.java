@@ -9,18 +9,24 @@ class GestionPersonne {
     
     private Personne personne;
     private Film film;
+    private Serie serie;
     private RoleFilm roleFilm;
+    private RoleEpisode roleEpisode;
     private Connexion cx;
     
-    public GestionPersonne(Personne personne, Film film, RoleFilm roleFilm) throws Tp3Exception {
+    public GestionPersonne(Personne personne, Film film, RoleFilm roleFilm, Serie serie, RoleEpisode roleEpisode) throws Tp3Exception {
         this.cx = personne.getConnexion();
         if (cx != film.getConnexion() ||
-            cx != roleFilm.getConnexion()){
+            cx != serie.getConnexion() ||
+            cx != roleFilm.getConnexion() ||
+            cx != roleEpisode.getConnexion()){
             throw new Tp3Exception("Les instances de connexions dans GestionPersonne sont différentes");
         }
         this.personne = personne;
         this.film = film;
+        this.serie = serie;
         this.roleFilm = roleFilm;
+        this.roleEpisode = roleEpisode;
     }
 
     public void ajoutPersonne(String nom, Date dateNaissance, String lieuNaissance, int sexe) throws Exception {
@@ -39,7 +45,7 @@ class GestionPersonne {
 
     public void supprimerPersonne(String nom) throws Exception {
         try {
-            // Vérifie si la personne existe 
+            // Si la personne n'existe pas
             if (!personne.existe(nom)) {
                 throw new Tp3Exception("Impossible de supprimer, la personne " + nom + " n'existe pas.");
             }
@@ -47,8 +53,18 @@ class GestionPersonne {
             if(!film.filmDeRealisateur(nom).isEmpty()) {
                 throw new Tp3Exception("Impossible de supprimer, la personne " + nom + " a realise au moins un film.");
             }
-            // S'il n'a aucun role
-            // XXX SHITZ
+            // S'il est le realisateur d'au moins une serie
+            if(!serie.serieDeRealisateur(nom).isEmpty()) {
+                throw new Tp3Exception("Impossible de supprimer, la personne " + nom + " a realise au moins une serie.");
+            }
+            // S'il a un role dans au moins un film
+            if (!roleFilm.rolesDeActeur(nom).isEmpty()) {
+                throw new Tp3Exception("Impossible de supprimer, la personne " + nom + " a un role dans au moins un film.");
+            }
+            // S'il a au moins un role dans au moins un episode d'au moins une serie
+            if (!roleEpisode.rolesDeActeur(nom).isEmpty()) {
+                throw new Tp3Exception("Impossible de supprimer, la personne " + nom + " a un role dans au moins une series.");
+            }
             
             personne.enlever(nom);
             cx.commit();
@@ -58,11 +74,7 @@ class GestionPersonne {
         }
     }
     
-    void listeSerieActeur(String nom) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-    
-    public void listeRealisateur() throws Exception {
+    public void afficherRealisateur() throws Exception {
         try{
             film.listerRealisateur();
             // XXX Affichage ici à faire
@@ -79,12 +91,18 @@ class GestionPersonne {
         if(!personne.existe(nom)){
             throw new Tp3Exception("L'acteur " + nom + " n'existe pas.");
         }
-        List<TupleRoleFilm> tuples = roleFilm.getFilmsDActeur(nom); 
-        StringBuffer output = new StringBuffer(); // XXX VP : Jamais += avec String, c'est mortel (démo si vous voulez)
+        List<TupleRoleFilm> tuples = roleFilm.rolesDeActeur(nom); 
+        
+        StringBuffer output = new StringBuffer();
         Iterator<TupleRoleFilm> it = tuples.iterator();
         while(it.hasNext()){
             output.append(it.next().getTitre() + (it.hasNext() ?", ":"."));
         }
+        System.out.println("L'acteur " + nom + " a participe aux films : ");
         System.out.println(output.toString());
+    }
+    
+    void afficherSerieActeur(String nom) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

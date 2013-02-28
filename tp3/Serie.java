@@ -2,6 +2,7 @@ package tp3;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 class Serie {
 
@@ -21,6 +22,10 @@ class Serie {
     }
 
     public boolean existe(String serieTitre, Date serieDate) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<TupleSerie> serieDeRealisateur(String nom) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 

@@ -2,6 +2,7 @@ package tp3;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 class RoleEpisode {
 
@@ -29,6 +30,10 @@ class RoleEpisode {
             int noEpisode, String acteur, String roleActeur) {
         throw new UnsupportedOperationException("Not yet implemented");
         
+    }
+
+    public List<TupleRoleEpisode> rolesDeActeur(String nom) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
     
 }

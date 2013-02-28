@@ -164,16 +164,16 @@ public class Main {
                             readString(tokenizer) /* Role de l'acteur */);
                 
                 }else if ("listeActeursSerie".startsWith(command)){
-                    gestionTp3.gestionSerie.listeActeursSerie(
+                    gestionTp3.gestionSerie.afficherActeursSerie(
                             readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */);
                 
                 }else if ("listeSerieActeur".startsWith(command)){
-                    gestionTp3.gestionPersonne.listeSerieActeur(
+                    gestionTp3.gestionPersonne.afficherSerieActeur(
                             readString(tokenizer) /* nom */);
                 
                 }else if ("listeRealisateurs".startsWith(command)){
-                    gestionTp3.gestionPersonne.listeRealisateur();
+                    gestionTp3.gestionPersonne.afficherRealisateur();
                 
                 }else if ("listeActeurFilm".startsWith(command)){
                     gestionTp3.gestionFilm.afficherActeurDeFilm(
