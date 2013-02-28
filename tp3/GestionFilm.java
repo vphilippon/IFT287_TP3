@@ -1,6 +1,7 @@
 package tp3;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -130,7 +131,7 @@ class GestionFilm {
         }
     }
     
-    public void afficherActeurDeFilm(String titre, Date anneeSortie) throws Tp3Exception {
+    public void afficherActeurDeFilm(String titre, Date anneeSortie) throws Tp3Exception, SQLException {
         if(!film.existe(titre, anneeSortie)){
             throw new Tp3Exception("Le film " + titre + " paru en " + anneeSortie + " n'existe pas.");
         }
