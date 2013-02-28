@@ -1,7 +1,6 @@
 package tp3;
 
 import java.sql.Date;
-import java.sql.SQLException;
 
 class GestionFilm {
     
@@ -15,16 +14,16 @@ class GestionFilm {
      * @param personne
      * @throws Tp3Exception 
      */
-    GestionFilm(Film film, Personne personne) throws Tp3Exception{
-        this.cx = film.getConnexion();
+    public GestionFilm(Film film, Personne personne) throws Tp3Exception{
         if (film.getConnexion() != personne.getConnexion()){
-            throw new Tp3Exception("Les instances de film et de personne n'utilisent pas la même connexion");
+            throw new Tp3Exception("Connexions différentes dans GestionFilm");
         }
+        this.cx = film.getConnexion();
         this.film = film;
         this.personne = personne;
     }
 
-    void ajoutFilm(String titre, Date dateSortie, String realisateur) throws SQLException, Tp3Exception, Exception {
+    public void ajoutFilm(String titre, Date dateSortie, String realisateur) throws Exception {
         try {
             // Vérifie si le film existe déja 
             if (film.existe(titre, dateSortie)) {
@@ -34,18 +33,17 @@ class GestionFilm {
             if (!personne.existe(realisateur)){
                 throw new Tp3Exception("Le réalisateur n'existe pas: " + realisateur);
             }
-                Date realisateurNaissance = personne.getPersonne(realisateur).getDateNaissance();
-                // S'assure que le réalisateur est né avant la sortie du film
+            Date realisateurNaissance = personne.getPersonne(realisateur).getDateNaissance();
+            // S'assure que le réalisateur est né avant la sortie du film
             if (realisateurNaissance.after(dateSortie)){
-                throw new Tp3Exception("Le réalisateur est né le: " + realisateurNaissance + " et ne peut pas participer à un film créé le: " + dateSortie);
+                throw new Tp3Exception("Le réalisateur est né le: " + realisateurNaissance + 
+                        " et ne peut pas participer à un film créé le: " + dateSortie);
             }  
             // Ajout du livre dans la table des livres
             film.ajouter(titre, dateSortie, realisateur);
             cx.commit();
-        }
-    catch (Exception e)
-        {
-            cx.fermer();
+        } catch (Exception e) {
+            cx.rollback();
             throw e;
         }
     }
@@ -55,20 +53,19 @@ class GestionFilm {
      * @param titre
      * @param dateSortie 
      */
-    void supFilm(String titre, Date dateSortie) throws SQLException, Tp3Exception, Exception {
+    public void supprimerFilm(String titre, Date dateSortie) throws Exception {
         try {
             // Vérifie si le film existe déja
             if (!film.existe(titre, dateSortie)) {
-                    throw new Tp3Exception("Film n'existe pas: " + titre + " " + dateSortie);
-                }
+                throw new Tp3Exception("Film n'existe pas: " + titre + " " + dateSortie);
+            }
             // Supression du livre dans la table des livres
-            int nb = film.enlever(titre, dateSortie);
-            System.out.println(nb + " film ajouté");
+            System.out.println(film.enlever(titre, dateSortie) + " film supprimé");
             cx.commit();
         }
         catch (Exception e)
         {
-            cx.fermer();
+            cx.rollback();
             throw e;
         }
     }
@@ -80,28 +77,29 @@ class GestionFilm {
      * @param description
      * @param duree 
      */
-    void ajoutDescFilm(String titre, Date anneeSortie, String description, int duree) throws Tp3Exception, SQLException, Exception {
+    public void ajoutDescFilm(String titre, Date anneeSortie, String description, int duree) throws Exception {
         try{
             if(!film.existe(titre, anneeSortie)){
                 throw new Tp3Exception("Film n'existe pas: " + titre + " " + anneeSortie);
             }
-            film.ajouterDescription(film.getFilm(titre, anneeSortie), description, duree);
+            film.ajouterDescription(titre, anneeSortie, description, duree);
             cx.commit();
         }
         catch(Exception e){
-            cx.fermer();
+            cx.rollback();
             throw e;
         }
     }
     
-    void listeRealisateur() throws Tp3Exception, SQLException, Exception {
+    public void listeRealisateur() throws Exception {
         try{
             film.listerRealisateur();
+            // XXX Affichage ici à faire
             cx.commit();
         }
         catch(Exception e)
         {
-            cx.fermer();
+            cx.rollback();
             throw e;
         }
     }

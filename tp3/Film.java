@@ -36,7 +36,7 @@ class Film {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public void ajouterDescription(TupleFilm film, String description, int duree) {
+    public void ajouterDescription(String titre, Date anneeSortie, String description, int duree) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 

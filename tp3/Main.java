@@ -23,8 +23,6 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    private static Connexion cx;
-
     private static PreparedStatement pstmCountRole;
     private static PreparedStatement pstmCountRealisateur;
 
@@ -42,19 +40,27 @@ public class Main {
 
     /**
      * @param args
+     * @throws Exception 
      */
     public static void main(String[] args) throws Exception {
         if (args.length < 3) {
             System.out.println("Usage: java tp3.Main <bd> <user> <password> [<fichier-transactions>]");
             return;
         }
-        cx = new Connexion("postgres", args[0], args[1], args[2]);
         
-        BufferedReader reader = ouvrirFichier(args);
-        String transaction = lireTransaction(reader);
-        while (!finTransaction(transaction)) {
-            executerTransaction(transaction);
-            transaction = lireTransaction(reader);
+        try {
+            gestionTp3 = new GestionTp3("postgres", args[0], args[1], args[2]);
+            
+            BufferedReader reader = ouvrirFichier(args);
+            String transaction = lireTransaction(reader);
+            while (!finTransaction(transaction)) {
+                executerTransaction(transaction);
+                transaction = lireTransaction(reader);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        } finally {
+            gestionTp3.fermer();
         }
     }
     //comment unsupported version this does not belong here anymore :(
@@ -92,8 +98,9 @@ public class Main {
     
     /**
      * Decodage et traitement d'une transaction :
+     * @throws Exception 
      */
-    static void executerTransaction(String transaction) throws Exception, Tp3Exception {
+    static void executerTransaction(String transaction) throws Exception {
         try {
             System.out.println(transaction);
             // decoupage de la transaction en mots
@@ -107,7 +114,7 @@ public class Main {
                             readInt(tokenizer) /* sexe */);
                     
                 }else if ("supPersonne".startsWith(command)){
-                    gestionTp3.gestionPersonne.supPersonne(readString(tokenizer) /* nom */);
+                    gestionTp3.gestionPersonne.supprimerPersonne(readString(tokenizer) /* nom */);
                 
                 }else if ("ajoutFilm".startsWith(command)){
                     gestionTp3.gestionFilm.ajoutFilm(readString(tokenizer) /* titre */,
@@ -115,7 +122,7 @@ public class Main {
                             readString(tokenizer) /* realisateur */);
                 
                 }else if ("supFilm".startsWith(command)){
-                    gestionTp3.gestionFilm.supFilm(readString(tokenizer) /* titre */,
+                    gestionTp3.gestionFilm.supprimerFilm(readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */);
                 
                 }else if ("ajoutDescFilm".startsWith(command)){
@@ -169,21 +176,20 @@ public class Main {
                     gestionTp3.gestionFilm.listeRealisateur();
                 
                 }else if ("listeActeurFilm".startsWith(command)){
-                    gestionTp3.gestionRoleFilm.getActeurFromFilm(
+                    gestionTp3.gestionRoleFilm.afficherActeurDeFilm(
                             readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */);
                 
                 }else if ("listeFilmsActeur".startsWith(command)){
-                    gestionTp3.gestionRoleFilm.getFilmFromActeur(
+                    gestionTp3.gestionRoleFilm.afficherFilmDActeur(
                             readString(tokenizer) /* nom */);
                 
                 }else{
                     System.out.println(" : Transaction non reconnue");
                 }
             }
-        } catch (Exception e) {
-            System.out.println(" " + e.toString());
-            cx.rollback();
+        } catch (Tp3Exception e) {
+            System.out.println("** " + e.toString());
         }
     }
     // comment because not needed but we can use the code in gestionnaire
