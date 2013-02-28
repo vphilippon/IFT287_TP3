@@ -9,6 +9,7 @@ class Episode {
 
     private Connexion cx;
     private PreparedStatement stmtEpisodeExiste;
+    private PreparedStatement stmtAjouterEpisode;
     
     public Episode(Connexion cx) throws SQLException {
         this.cx = cx;
@@ -18,6 +19,7 @@ class Episode {
     private void init() throws SQLException {
         try{
             stmtEpisodeExiste = cx.getConnection().prepareStatement("SELECT * FROM Episode WHERE titreSerie = ? AND anneeSortieSerie = ? AND noSaison = ? AND noEpisode = ?");
+            stmtAjouterEpisode = cx.getConnection().prepareStatement("INSERT INTO Episode (titre, titreSerie, anneeSortieSerie, noSaison, noEpisode, description, dateDiffusion) VALUES (?, ?, ?, ?, ?, ?, ?)");
         }catch(SQLException e){
             throw e;
         }
@@ -42,8 +44,19 @@ class Episode {
         return retour;
     }
 
-    void ajouter(String titre, Date dateDiffusion, int noSaison, int noEpisode) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    void ajouter(String titre, String titreSerie, Date anneeSortieSerie, int noSaison, int noEpisode, String description, Date dateDiffusion) throws SQLException {
+        stmtAjouterEpisode.setString(1, titre);
+        stmtAjouterEpisode.setString(2, titreSerie);
+        stmtAjouterEpisode.setDate(3, anneeSortieSerie);
+        stmtAjouterEpisode.setInt(4, noSaison);
+        stmtAjouterEpisode.setInt(5, noEpisode);
+        stmtAjouterEpisode.setString(6, description);
+        stmtAjouterEpisode.setDate(7, dateDiffusion);
+        try{
+            stmtAjouterEpisode.executeUpdate();
+        }catch(SQLException e){
+            throw e;
+        }
     }
     
 }
