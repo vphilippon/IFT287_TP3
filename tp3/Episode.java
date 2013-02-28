@@ -41,5 +41,9 @@ class Episode {
         }
         return retour;
     }
+
+    void ajouter(String titre, Date dateDiffusion, int noSaison, int noEpisode) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
     
 }

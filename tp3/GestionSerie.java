@@ -48,7 +48,7 @@ class GestionSerie {
         }
     }
     
-    public void ajoutEpisode(String titre, String titreSerie, Date anneeSortieSerie, int noSaison, int noEpisode, String description, Date dateDiffusion) {
+    public void ajoutEpisode(String titre, String titreSerie, Date anneeSortieSerie, int noSaison, int noEpisode, String description, Date dateDiffusion) throws SQLException, Exception {
         try {
             // Vérifie si le film existe déja 
             if (serie.existe(titreSerie, anneeSortieSerie)) {
