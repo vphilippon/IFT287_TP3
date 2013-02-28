@@ -14,9 +14,9 @@ class GestionPersonne {
 
     public void ajoutPersonne(String nom, Date dateNaissance, String lieuNaissance, int sexe) throws Exception {
         try {
-            // Vérifie si la personne existe déja 
+            // Vérifie si la personne existe déjà 
             if (personne.existe(nom)) {
-                throw new Tp3Exception("Personne existe deja: " + nom);
+                throw new Tp3Exception("Impossible d'ajouter, la personne existe deja: " + nom);
             }
             personne.ajouter(nom, dateNaissance, lieuNaissance, sexe);
             cx.commit();
@@ -30,10 +30,11 @@ class GestionPersonne {
         try {
             // Vérifie si la personne existe 
             if (!personne.existe(nom)) {
-                throw new Tp3Exception("Personne n'existe pas : " + nom);
+                throw new Tp3Exception("Impossible de supprimer, la personne n'existe pas : " + nom);
             }
             // XXX AUTRE VALIDATION
             // S'il n'est le realisateur d'aucun film
+//            film.film
             // S'il n'a aucun role
             
             personne.enlever(nom);
