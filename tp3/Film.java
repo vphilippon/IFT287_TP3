@@ -13,6 +13,8 @@ class Film {
     private PreparedStatement stmtAjouterFilm;
     private PreparedStatement stmtSuppFilm;
     private PreparedStatement stmtAjoutDescFilm;
+    private PreparedStatement stmtGetRealisateur;
+    private PreparedStatement stmtGetFilmFrom;
 
     public Film(Connexion cx) throws SQLException {
         this.cx = cx;
@@ -25,6 +27,8 @@ class Film {
             stmtAjouterFilm = cx.getConnection().prepareStatement("INSERT INTO Film (titre, dateSortie, realisateur) VALUES (?, ?, ?)");
             stmtSuppFilm = cx.getConnection().prepareStatement("INSERT INTO Film (titre, dateSortie, realisateur) VALUES (?, ?, ?)");
             stmtAjoutDescFilm = cx.getConnection().prepareStatement("UPDATE Film SET description=?, duree=? WHERE titre = ? AND dateSortie = ?");
+            stmtGetRealisateur = cx.getConnection().prepareStatement("SELECT * FROM personne WHERE realisateur IN (SELECT DISTINCT realisateur FROM Film)");
+            stmtGetFilmFrom = cx.getConnection().prepareStatement("SELECT * FROM Film WHERE realisateur = ?");
         }catch(SQLException e){
             throw e;
         }
@@ -76,7 +80,7 @@ class Film {
         stmtFilmExiste.setDate(2,dateSortie);
         try{
             ResultSet rs = stmtFilmExiste.executeQuery();
-            t = new TupleFilm(rs.getString(0),rs.getDate(1),rs.getString(2),rs.getInt(3),rs.getString(4));
+            t = new TupleFilm(rs.getString(1),rs.getDate(2),rs.getString(3),rs.getInt(4),rs.getString(5));
         }catch(SQLException e){
             throw e;
         }
@@ -96,11 +100,22 @@ class Film {
         }
     }
 
-    public void listerRealisateur() throws SQLException {
-        
+    public List<TuplePersonne> listerRealisateur() throws SQLException {
+        List<TuplePersonne> LP = null;
+        ResultSet rs = stmtGetRealisateur.executeQuery();
+        while(rs.next()){
+            LP.add(new TuplePersonne(rs.getString(1),rs.getDate(2),rs.getString(3),rs.getInt(4)));
+        }
+        return LP;
     }
 
     public List<TupleFilm> filmDeRealisateur(String nom) throws SQLException {
-        throw new UnsupportedOperationException("Not yet implemented");
+        List<TupleFilm> LF = null;
+        stmtGetFilmFrom.setString(1,nom);
+        ResultSet rs = stmtGetFilmFrom.executeQuery();
+        while(rs.next()){
+            LF.add(new TupleFilm(rs.getString(1),rs.getDate(2),rs.getString(3),rs.getInt(4), rs.getString(5)));
+        }
+        return LF;
     }
 }
