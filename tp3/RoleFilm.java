@@ -11,6 +11,7 @@ class RoleFilm {
     
     private Connexion cx;
     private PreparedStatement stmtRoleFilmExiste;
+    private PreparedStatement stmtRoleFilmExistePourAutreActeur;
     private PreparedStatement stmtAjouteoRleFilm;
     private PreparedStatement stmtGetActeurOfFilm;
     private PreparedStatement stmtGetRoleOfActeur;
@@ -23,6 +24,7 @@ class RoleFilm {
     private void init() throws SQLException {
         try{
             stmtRoleFilmExiste = cx.getConnection().prepareStatement("SELECT * FROM RoleFilm WHERE nomActeur = ? AND filmTitre = ? AND anneeSortie = ? AND roleActeur = ?");
+            stmtRoleFilmExistePourAutreActeur = cx.getConnection().prepareStatement("SELECT * FROM RoleFilm WHERE filmTitre = ? AND anneeSortie = ? AND roleActeur = ?");
             stmtAjouteoRleFilm = cx.getConnection().prepareStatement("INSERT INTO RoleFilm (nomActeur, roleActeur, filmTitre, anneeSortie) VALUES (?, ?, ?, ?)");
             stmtGetActeurOfFilm = cx.getConnection().prepareStatement("SELECT * FROM Personne WHERE nom IN (SELECT nomActeur FROM RoleFilm WHERE filmTitre = ? AND anneeSortie = ?)");
             stmtGetRoleOfActeur = cx.getConnection().prepareStatement("SELECT * FROM RoleFilm WHERE nomActeur = ?");
@@ -51,6 +53,22 @@ class RoleFilm {
         }
         return retour;
     }
+    
+    public boolean existe(String filmTitre, Date anneeSortie, String role) throws SQLException {
+        boolean retour = false;
+        try{
+            stmtRoleFilmExistePourAutreActeur.setString(1,filmTitre);
+            stmtRoleFilmExistePourAutreActeur.setDate(2,anneeSortie);
+            stmtRoleFilmExistePourAutreActeur.setString(3,role);
+            ResultSet rs = stmtRoleFilmExistePourAutreActeur.executeQuery();
+            if(rs.next()){
+                retour = true;
+            }
+        }catch(SQLException e){
+            throw e;
+        }
+        return retour;
+    }
 
     public void ajouter(String nomActeur, String filmTitre, Date anneeSortie, String role) throws SQLException {
         try{
@@ -64,6 +82,21 @@ class RoleFilm {
         }
     }
 
+    public boolean hasRole(String titre, Date anneeSortie) throws SQLException {
+        boolean retour = false;
+        try{
+            stmtGetActeurOfFilm.setString(1,titre);
+            stmtGetActeurOfFilm.setDate(2,anneeSortie);
+            ResultSet rs = stmtGetActeurOfFilm.executeQuery();
+            if(rs.next()){
+                retour = true;
+            }
+        }catch(SQLException e){
+            throw e;
+        }
+        return retour;
+    }
+    
     public List<TuplePersonne> getActeurs(String titre, Date anneeSortie) throws SQLException {
         List<TuplePersonne> listePersonne = new ArrayList<TuplePersonne>();
         try{

@@ -42,7 +42,7 @@ class GestionFilm {
             // S'assure que le réalisateur est né avant la sortie du film
             if (realisateurNaissance.after(dateSortie)){
                 throw new Tp3Exception("Le réalisateur " + realisateur + " est né le: " + realisateurNaissance + 
-                        " et ne peut pas réaliser un film créé le: " + dateSortie);
+                        " et ne peut pas avoir réaliser un film créé le: " + dateSortie);
             }  
             // Ajout du film dans la table des films
             film.ajouter(titre, dateSortie, realisateur);
@@ -64,7 +64,11 @@ class GestionFilm {
             if (!film.existe(titre, dateSortie)) {
                 throw new Tp3Exception("Impossible de supprimer, le film " + titre + " paru le " + dateSortie + " n'existe pas.");
             }
-            // Supression du film dans la table des film
+            //verifie si un role est relier au film
+            if(roleFilm.hasRole(titre, dateSortie)){
+                throw new Tp3Exception("Impossible de supprimer, le film " + titre + ", un/des role(s) y sont encore rattache.");
+            }
+            // Supression du film dans la table Film
             System.out.println(film.enlever(titre, dateSortie) + " film supprimé");
             cx.commit();
         }
@@ -84,6 +88,7 @@ class GestionFilm {
      */
     public void ajoutDescFilm(String titre, Date anneeSortie, String description, int duree) throws Exception {
         try{
+            //si le film n'existe pas
             if(!film.existe(titre, anneeSortie)){
                 throw new Tp3Exception("Impossible d'ajouter la description, le film " + titre + " paru le " + anneeSortie + " n'existe pas.");
             }
@@ -96,23 +101,34 @@ class GestionFilm {
         }
     }
     
+    
     public void ajoutActeurFilm(String titre, Date anneeSortie, String nomActeur, String role) throws Exception {
         try {
+            //verifie si l acteur existe
             if (!personne.existe(nomActeur)) {
                 throw new Tp3Exception("Impossible d'ajouter l'acteur au film, l'acteur " + nomActeur + " n'existe pas.");
             }
-                
+            
+            //verifie si le film existe
             if (!film.existe(titre, anneeSortie)) {
                 throw new Tp3Exception("Impossible d'ajouter l'acteur au film, le film " + titre + " paru le " + anneeSortie + " n'existe pas.");
             }
             
+            //verifie que l acteur est nee avant la sortie du film
             TuplePersonne acteur = personne.getPersonne(nomActeur);
             if(acteur.getDateNaissance().after(anneeSortie)){
                 throw new Tp3Exception("Impossible d'ajouter l'acteur au film, l'acteur " + nomActeur + " est nee avant la date de sortie du film.");
             }
             
+            //verifie que le role n existe pas deja pour cette acteur
             if (roleFilm.existe(nomActeur, titre, anneeSortie, role)) {
-                throw new Tp3Exception("Impossible d'ajouter l'acteur " + nomActeur + " au film, l'acteur y joue deja.");
+                throw new Tp3Exception("L'acteur " + nomActeur + " joue deja le role " + role + " dans le film " + titre + ".");
+            }
+            
+            //@TODO voir si cette verification devrait etre la ou pas!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //verifie que le role n'existe pas deja pour un autre acteur
+            if (roleFilm.existe(titre, anneeSortie, role)) {
+                throw new Tp3Exception("Un autre acteur joue deja le role " + role + " dans le film " + titre + ".");
             }
 
             roleFilm.ajouter(nomActeur, titre, anneeSortie, role);
@@ -128,11 +144,11 @@ class GestionFilm {
             throw new Tp3Exception("Le film " + titre + " paru en " + anneeSortie + " n'existe pas.");
         }
         
-        List <TupleRoleFilm> tuples = roleFilm.getActeurs(titre, anneeSortie);
+        List <TuplePersonne> tuples = roleFilm.getActeurs(titre, anneeSortie);
         StringBuilder output = new StringBuilder();
-        Iterator<TupleRoleFilm> it = tuples.iterator();
+        Iterator<TuplePersonne> it = tuples.iterator();
         while(it.hasNext()){
-            output.append(it.next().getNomActeur()).append(it.hasNext() ?", ":".");
+            output.append(it.next().getNom()).append(it.hasNext() ?", ":".");
         }
         System.out.println(output.toString());
     }
