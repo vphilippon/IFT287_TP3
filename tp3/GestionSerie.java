@@ -57,10 +57,14 @@ class GestionSerie {
                 throw new Tp3Exception("Impossible d'ajouter, la serie " + titreSerie + " paru le " + anneeSortieSerie + " n'existe pas.");
             }
             //verifie si l episode existe deja
-            if (episode.existe(titre, dateDiffusion, noSaison, noEpisode)) {
+            if (episode.existe(titreSerie, anneeSortieSerie, noSaison, noEpisode)) {
                 throw new Tp3Exception("Impossible d'ajouter, l'episode existe deja: " + titre + " " + dateDiffusion + " saison: " + noSaison + " episode: " + noEpisode);
             } 
-            
+            // verifie si le no saison est valide
+            if(noSaison > serie.getSerie(titreSerie, anneeSortieSerie).getNbSaison())
+            {
+                throw new Tp3Exception("Il n'y a pas de saison " + noSaison + " pour la serie: " + titreSerie);
+            }
             //verifie que le no episode est valide
             if(noEpisode < 1){
                 throw new Tp3Exception("L'episode No" + noEpisode + " ne peu etre ajouter car : le numero doit etre plus grand ou egal a 1.");

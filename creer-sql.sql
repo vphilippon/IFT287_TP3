@@ -74,13 +74,12 @@ DROP TABLE IF EXISTS RoleEpisode CASCADE;
 CREATE TABLE RoleEpisode(
 	nomActeur VARCHAR(255) NOT NULL,
 	roleActeur VARCHAR(255) NOT NULL,
-	titreEpisode VARCHAR(255) NOT NULL,
+	titreSerie VARCHAR(255) NOT NULL,
 	noSaison INTEGER NOT NULL,
 	noEpisode INTEGER NOT NULL,
 	anneeSortieSerie DATE NOT NULL,
 	CONSTRAINT roleEpisodePK PRIMARY KEY (nomActeur, titreSerie, anneeSortieSerie, noSaison, noEpisode),	
 	CONSTRAINT roleEpisodeFK1 FOREIGN KEY (nomActeur) REFERENCES Personne(nom),	
-	CONSTRAINT roleEpisodeFK2 FOREIGN KEY (titreSerie, noSaison, noEpisode, anneeSortieSerie) REFERENCES Episode(titreSerie, noSaison, noEpisode, anneeSortieSerie),
-	CONSTRAINT roleEpisodeFK3 FOREIGN KEY (titreSerie, anneeSortieSerie) REFERENCES Serie(titre, anneeSortie)
+	CONSTRAINT roleEpisodeFK2 FOREIGN KEY (titreSerie, noSaison, noEpisode, anneeSortieSerie) REFERENCES Episode(titreSerie, noSaison, noEpisode, anneeSortieSerie)
 );
 

@@ -91,5 +91,20 @@ class Serie {
         return listeSerie;
     }
 
+    public TupleSerie getSerie(String titre, Date anneeSortie) throws SQLException
+    {
+        TupleSerie laSerie;
+        
+        stmtSerieExiste.setString(1, titre);
+        stmtSerieExiste.setDate(2, anneeSortie);
+        
+        ResultSet rs = stmtSerieExiste.executeQuery();
+        rs.next();
+        //String titre, Date anneeSortie, String realisateur, String description, int nbSaison
+        laSerie = new TupleSerie(rs.getString("titre"), rs.getDate("anneeSortie"), rs.getString("realisateur"), 
+                                 rs.getString("description"), rs.getInt("nbSaison"));
+        
+        return laSerie;
+    }
 
 }
