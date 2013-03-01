@@ -11,7 +11,8 @@ public class TupleRoleEpisode {
     private int noEpisode;
     private Date anneeSortieSerie;
     
-    TupleRoleEpisode(String nomActeur, String roleActeur, String titreSerie, String titreEpisode, int noSaison, int noEpisode, Date anneeSortieSerie) {
+    public TupleRoleEpisode(String nomActeur, String roleActeur, String titreSerie, 
+            String titreEpisode, int noSaison, int noEpisode, Date anneeSortieSerie) {
         this.nomActeur = nomActeur;
         this.roleActeur = roleActeur;
         this.titreSerie = titreSerie;
@@ -48,6 +49,4 @@ public class TupleRoleEpisode {
     public Date getAnneeSortieSerie() {
         return anneeSortieSerie;
     }
-    
-    
 }

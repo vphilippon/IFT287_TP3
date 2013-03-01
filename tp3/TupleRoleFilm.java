@@ -30,6 +30,4 @@ public class TupleRoleFilm {
     public Date getAnneeSortie() {
         return this.anneeSortie;
     }
-
-
 }

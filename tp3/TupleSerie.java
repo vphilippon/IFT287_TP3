@@ -10,7 +10,8 @@ public class TupleSerie {
     private String description;
     private int nbSaison;
 
-    TupleSerie(String titre, Date anneeSortie, String realisateur, String description, int nbSaison) {
+    public TupleSerie(String titre, Date anneeSortie, String realisateur, 
+            String description, int nbSaison) {
         this.titre = titre;
         this.anneeSortie = anneeSortie;
         this.realisateur = realisateur;
@@ -37,5 +38,4 @@ public class TupleSerie {
     public int getNbSaison() {
         return nbSaison;
     }
-    
 }
