@@ -66,8 +66,9 @@ class GestionPersonne {
                 throw new Tp3Exception("Impossible de supprimer, la personne " + nom + " a un role dans au moins une series.");
             }
             
-            cx.commit();
             System.out.println(personne.enlever(nom) + " personne supprime.");
+            
+            cx.commit();
         } catch (Exception e) {
             cx.rollback();
             throw e;

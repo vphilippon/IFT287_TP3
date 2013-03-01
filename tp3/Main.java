@@ -156,7 +156,6 @@ public class Main {
                 
                 }else if ("ajoutActeurEpisode".startsWith(command)){
                     gestionTp3.gestionSerie.ajoutRoleAEpisode(
-                            readString(tokenizer) /* titre episode */,
                             readString(tokenizer) /* titre serie */,
                             readDate(tokenizer) /* annee serie */,
                             readInt(tokenizer) /* no saison */,
@@ -176,7 +175,7 @@ public class Main {
                 }else if ("listeRealisateurs".startsWith(command)){
                     gestionTp3.gestionPersonne.afficherRealisateur();
                 
-                }else if ("listeActeurFilm".startsWith(command)){
+                }else if ("listeActeursFilm".startsWith(command)){
                     gestionTp3.gestionFilm.afficherActeurDeFilm(
                             readString(tokenizer) /* titre */,
                             readDate(tokenizer) /* annee */);

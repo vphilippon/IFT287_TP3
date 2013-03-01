@@ -51,26 +51,22 @@ public class Personne {
     }
     
     public TuplePersonne getPersonne(String nom) throws SQLException {
-        TuplePersonne tuplePer;
-        try{
-            pstmGetPersonne.setString(1, nom);
-            ResultSet rs = pstmGetPersonne.executeQuery();
-            rs.first();
-            tuplePer = new TuplePersonne(rs.getString("nom"), rs.getDate("dateNaissance"), 
-                    rs.getString("lieuNaissance"), rs.getInt("sexe"));
-        }catch(SQLException e){
-            throw e;
-        }
+        pstmGetPersonne.setString(1, nom);
+        ResultSet rs = pstmGetPersonne.executeQuery();
+        rs.next();
+
+        TuplePersonne tuplePer = new TuplePersonne(rs.getString("nom"), rs.getDate("dateNaissance"), 
+                                                   rs.getString("lieuNaissance"), rs.getInt("sexe"));
         return tuplePer;
     }
     
     public void ajouter(String nom, Date dateNaissance, String lieuNaissance, int sexe) throws SQLException {
         try{
             pstmInsertPersonne.setString(1, nom);
-            pstmInsertPersonne.setDate(1, dateNaissance);
+            pstmInsertPersonne.setDate(2, dateNaissance);
             pstmInsertPersonne.setString(3, lieuNaissance);
             pstmInsertPersonne.setInt(4, sexe);
-            pstmGetPersonne.executeUpdate();
+            pstmInsertPersonne.executeUpdate();
         }catch(SQLException e){
             throw e;
         }
@@ -104,7 +100,7 @@ public class Personne {
         List<TuplePersonne> listeActeur = new ArrayList<TuplePersonne>();
         try{
             pstmtGetActeurDeSerie.setString(1, serieTitre);
-            pstmtGetActeurDeSerie.setDate(1, serieDate);
+            pstmtGetActeurDeSerie.setDate(2, serieDate);
             ResultSet rs = pstmtGetActeurDeSerie.executeQuery();
             while(rs.next()){
                 listeActeur.add(new TuplePersonne(rs.getString(1),rs.getDate(2),rs.getString(3),rs.getInt(4)));

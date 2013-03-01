@@ -30,7 +30,7 @@ class RoleEpisode {
                     "SELECT * FROM RoleEpisode WHERE roleActeur = ? "
                     + "AND titreSerie = ? AND noSaison = ? "
                     + "AND noEpisode = ? AND anneeSortieSerie = ?");
-            stmtAjouterRoleEpisode = cx.getConnection().prepareStatement("INSERT INTO RoleEpisode (titreEpisode, nomActeur, roleActeur, titreSerie, noSaison, noEpisode, anneeSortieSerie) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            stmtAjouterRoleEpisode = cx.getConnection().prepareStatement("INSERT INTO RoleEpisode (nomActeur, roleActeur, titreSerie, noSaison, noEpisode, anneeSortieSerie) VALUES (?, ?, ?, ?, ?, ?)");
             stmtGetRoleEpisodeWithActeur = cx.getConnection().prepareStatement("SELECT * FROM RoleEpisode WHERE nomActeur = ?");
         }catch(SQLException e){
             throw e;
@@ -61,16 +61,15 @@ class RoleEpisode {
         return retour;
     }
 
-    public void ajouter(String titre, String serieTitre, Date serieDate, int noSaison,
+    public void ajouter(String serieTitre, Date serieDate, int noSaison,
             int noEpisode, String acteur, String roleActeur) throws SQLException {
         try{
-            stmtAjouterRoleEpisode.setString(1,titre);
-            stmtAjouterRoleEpisode.setString(2,acteur);
-            stmtAjouterRoleEpisode.setString(3,roleActeur);
-            stmtAjouterRoleEpisode.setString(4,serieTitre);
-            stmtAjouterRoleEpisode.setInt(5,noSaison);
-            stmtAjouterRoleEpisode.setInt(6,noEpisode);
-            stmtAjouterRoleEpisode.setDate(7,serieDate);
+            stmtAjouterRoleEpisode.setString(1,acteur);
+            stmtAjouterRoleEpisode.setString(2,roleActeur);
+            stmtAjouterRoleEpisode.setString(3,serieTitre);
+            stmtAjouterRoleEpisode.setInt(4,noSaison);
+            stmtAjouterRoleEpisode.setInt(5,noEpisode);
+            stmtAjouterRoleEpisode.setDate(6,serieDate);
             stmtAjouterRoleEpisode.executeUpdate();
         }catch(SQLException e){
             throw e;

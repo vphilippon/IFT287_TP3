@@ -68,7 +68,7 @@ class GestionSerie {
             
             // S'assure que l'épisode d'avant existe
             if (noEpisode > 1) {
-                if (!episode.existe(titre, dateDiffusion, noSaison, noEpisode-1)){
+                if (!episode.existe(titreSerie, anneeSortieSerie, noSaison, noEpisode-1)){
                     throw new Tp3Exception("L'episode No" + noEpisode + " ne peu etre ajouter car : l'episode No " + (noEpisode-1) + " est manquant.");
                 }
             }
@@ -81,7 +81,7 @@ class GestionSerie {
         }
     }
     
-    public void ajoutRoleAEpisode(String titre, String serieTitre, Date serieDate, int noSaison, int noEpisode, 
+    public void ajoutRoleAEpisode(String serieTitre, Date serieDate, int noSaison, int noEpisode, 
             String acteur, String roleActeur) throws Exception {
         try {
             //verifie que la serie existe
@@ -114,7 +114,7 @@ class GestionSerie {
                         noEpisode + " de la saison " + noSaison + ".");
             }
             
-            roleEpisode.ajouter(titre, serieTitre, serieDate, noSaison, noEpisode, acteur, roleActeur);
+            roleEpisode.ajouter(serieTitre, serieDate, noSaison, noEpisode, acteur, roleActeur);
             cx.commit();
         } catch (Exception e) {
             cx.rollback();
