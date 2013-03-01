@@ -56,15 +56,22 @@ class GestionSerie {
             if (!serie.existe(titreSerie, anneeSortieSerie)) {
                 throw new Tp3Exception("Impossible d'ajouter, la serie " + titreSerie + " paru le " + anneeSortieSerie + " n'existe pas.");
             }
+            //verifie si l episode existe deja
             if (episode.existe(titre, dateDiffusion, noSaison, noEpisode)) {
                 throw new Tp3Exception("Impossible d'ajouter, l'episode existe deja: " + titre + " " + dateDiffusion + " saison: " + noSaison + " episode: " + noEpisode);
             } 
+            
+            //verifie que le no episode est valide
+            if(noEpisode < 1){
+                throw new Tp3Exception("L'episode No" + noEpisode + " ne peu etre ajouter car : le numero doit etre plus grand ou egal a 1.");
+            }
+            
             // S'assure que l'épisode d'avant existe
             if (noEpisode > 1) {
                 if (!episode.existe(titre, dateDiffusion, noSaison, noEpisode-1)){
-                    throw new Tp3Exception("Impossible d'ajouter l'episode, l'episode n'a pas de prédécesseur: " + (noEpisode-1) + " est manquant");
+                    throw new Tp3Exception("L'episode No" + noEpisode + " ne peu etre ajouter car : l'episode No " + (noEpisode-1) + " est manquant.");
                 }
-            } 
+            }
             // Ajout de l'épisode dans la table des épisodes
             episode.ajouter(titre, titreSerie, anneeSortieSerie, noSaison, noEpisode, description, dateDiffusion);
             cx.commit();
@@ -77,23 +84,34 @@ class GestionSerie {
     public void ajoutRoleAEpisode(String titre, String serieTitre, Date serieDate, int noSaison, int noEpisode, 
             String acteur, String roleActeur) throws Exception {
         try {
+            //verifie que la serie existe
             if(!serie.existe(serieTitre, serieDate)){
                 throw new Tp3Exception("Impossible d'ajouter, la serie : " + serieTitre + " n'existe pas.");
             }
+            //verifie que l episode existe
             if(!episode.existe(serieTitre, serieDate, noSaison, noEpisode)){
                 throw new Tp3Exception("Impossible d'ajouter, l'episode no : " + noEpisode + " de la saison : " + noSaison + " n'existe pas.");
             }
+            //verifie que l acteur existe
             if(!personne.existe(acteur)){
                 throw new Tp3Exception("Impossible d'ajouter, l'acteur : " + acteur + " n'existe pas.");
             }
+            
+            //verifie que l acteur etait nee
             TuplePersonne tupleActeur = personne.getPersonne(acteur);
             if (tupleActeur.getDateNaissance().after(serieDate)){
                 throw new Tp3Exception("Impossible d'ajouter, l'acteur " + acteur + " est né le: " + tupleActeur.getDateNaissance() + 
-                        " et ne peut pas participer à une serie créé le: " + serieDate);
+                        " et ne peut pas participer à une serie créé le: " + serieDate + ".");
             } 
+            //verifie que l acteur n'a pas deja le role
             if(roleEpisode.existe(serieTitre, serieDate, noSaison, noEpisode, acteur, roleActeur)){
                 throw new Tp3Exception("Impossible d'ajouter, l'acteur : " + acteur + " joue deja dans l'episode " + 
-                        noEpisode + " de la saison " + noSaison + " dans le role de : " + roleActeur);
+                        noEpisode + " de la saison " + noSaison + " dans le role de : " + roleActeur + ".");
+            }
+            //verifie qu un autre acteur n'a pas deja le role
+            if(roleEpisode.existeRole(serieTitre, serieDate, noSaison, noEpisode, roleActeur)){
+                throw new Tp3Exception("Un autre acteur joue deja le role : " + roleActeur + " dans l'episode " + 
+                        noEpisode + " de la saison " + noSaison + ".");
             }
             
             roleEpisode.ajouter(titre, serieTitre, serieDate, noSaison, noEpisode, acteur, roleActeur);

@@ -13,6 +13,7 @@ class RoleEpisode {
     private PreparedStatement stmtRoleEpisodeExiste;
     private PreparedStatement stmtAjouterRoleEpisode;
     private PreparedStatement stmtGetRoleEpisodeWithActeur;
+    private PreparedStatement stmtRoleEpisodeAutreActeur;
     
     public RoleEpisode(Connexion cx) throws SQLException {
         this.cx = cx;
@@ -23,6 +24,10 @@ class RoleEpisode {
         try{
             stmtRoleEpisodeExiste = cx.getConnection().prepareStatement(
                     "SELECT * FROM RoleEpisode WHERE nomActeur = ? AND roleActeur = ? "
+                    + "AND titreSerie = ? AND noSaison = ? "
+                    + "AND noEpisode = ? AND anneeSortieSerie = ?");
+            stmtRoleEpisodeAutreActeur = cx.getConnection().prepareStatement(
+                    "SELECT * FROM RoleEpisode WHERE roleActeur = ? "
                     + "AND titreSerie = ? AND noSaison = ? "
                     + "AND noEpisode = ? AND anneeSortieSerie = ?");
             stmtAjouterRoleEpisode = cx.getConnection().prepareStatement("INSERT INTO RoleEpisode (titreEpisode, nomActeur, roleActeur, titreSerie, noSaison, noEpisode, anneeSortieSerie) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -85,6 +90,23 @@ class RoleEpisode {
             throw e;
         }
         return listeRoleEpisode;
+    }
+    public boolean existeRole(String serieTitre, Date serieDate, int noSaison, int noEpisode, String roleActeur) throws SQLException {
+        boolean retour = false;
+        try{
+            stmtRoleEpisodeAutreActeur.setString(1,roleActeur);
+            stmtRoleEpisodeAutreActeur.setString(2,serieTitre);
+            stmtRoleEpisodeAutreActeur.setInt(3,noSaison);
+            stmtRoleEpisodeAutreActeur.setInt(4,noEpisode);
+            stmtRoleEpisodeAutreActeur.setDate(5,serieDate);
+            ResultSet rs = stmtRoleEpisodeAutreActeur.executeQuery();
+            if(rs.next()){
+                retour = true;
+            }
+        }catch(SQLException e){
+            throw e;
+        }
+        return retour;
     }
     
 }
