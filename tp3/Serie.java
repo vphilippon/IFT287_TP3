@@ -13,6 +13,7 @@ class Serie {
     private PreparedStatement stmtSerieExiste;
     private PreparedStatement stmtAjouterSerie;
     private PreparedStatement stmtSerieDeRealisateur;
+    private PreparedStatement stmtSerieAvecActeur;
     
     public Serie(Connexion cx) throws SQLException {
         this.cx = cx;
@@ -24,6 +25,7 @@ class Serie {
             stmtSerieExiste = cx.getConnection().prepareStatement("SELECT * FROM Serie WHERE titre = ? AND anneeSortie = ?");
             stmtAjouterSerie = cx.getConnection().prepareStatement("INSERT INTO Serie (titre, anneeSortie, realisateur, description, nbSaison) VALUES (?, ?, ?, ?, ?)");
             stmtSerieDeRealisateur = cx.getConnection().prepareStatement("SELECT * FROM Serie WHERE realisateur = ?");
+            stmtSerieAvecActeur = cx.getConnection().prepareStatement("SELECT * FROM Serie WHERE titre IN (SELECT titreSerie FROM RoleEpisode WHERE nomActeur = ?)");
         }catch(SQLException e){
             throw e;
         }
@@ -80,6 +82,20 @@ class Serie {
         try{
             stmtSerieDeRealisateur.setString(1,nom);
             ResultSet rs = stmtSerieDeRealisateur.executeQuery();
+            while(rs.next()){
+                listeSerie.add(new TupleSerie(rs.getString(1),rs.getDate(2),rs.getString(3),rs.getString(4), rs.getInt(5)));
+            }
+        }catch(SQLException e){
+            throw e;
+        }
+        return listeSerie;
+    }
+    
+    public List<TupleSerie> serieAvecActeur(String nom) throws SQLException {
+        List<TupleSerie> listeSerie = new ArrayList<TupleSerie>();
+        try{
+            stmtSerieAvecActeur.setString(1,nom);
+            ResultSet rs = stmtSerieAvecActeur.executeQuery();
             while(rs.next()){
                 listeSerie.add(new TupleSerie(rs.getString(1),rs.getDate(2),rs.getString(3),rs.getString(4), rs.getInt(5)));
             }

@@ -101,21 +101,20 @@ class GestionPersonne {
         System.out.println(output.toString());
     }
     
-    void afficherSerieActeur(String nom) throws Tp3Exception, SQLException {
+    void afficherSerieAvecActeur(String nom) throws Tp3Exception, SQLException {
         if(!personne.existe(nom)){
             throw new Tp3Exception("Impossible d'afficher, l'acteur " + nom + " n'existe pas.");
         }
-        // XXX PAS FINI ICI VP
-//        List<TupleSerie> listeSeries = serie.serieDActeur(nom);
-//
-//        StringBuffer output = new StringBuffer();
-//        Iterator<TupleSerie> it = listeSeries.iterator();
-//        while(it.hasNext()){
-//            output.append(it.next().getTitre + (it.hasNext() ?", ":"."));
-//        }
-//        System.out.println("Voici les series de l'acteur : ");
-//        System.out.println(output.toString());
         
-        throw new UnsupportedOperationException("Not yet implemented");
+        List<TupleSerie> listeSeries = serie.serieAvecActeur(nom);
+
+        StringBuilder output = new StringBuilder();
+        Iterator<TupleSerie> it = listeSeries.iterator();
+        while(it.hasNext()){
+            output.append(it.next().getTitre()).append(it.hasNext() ?", ":".");
+        }
+        System.out.println("Voici les series de l'acteur : ");
+        System.out.println(output.toString());
+        
     }
 }

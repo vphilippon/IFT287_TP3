@@ -170,7 +170,7 @@ public class Main {
                             readDate(tokenizer) /* annee */);
                 
                 }else if ("listeSerieActeur".startsWith(command)){
-                    gestionTp3.gestionPersonne.afficherSerieActeur(
+                    gestionTp3.gestionPersonne.afficherSerieAvecActeur(
                             readString(tokenizer) /* nom */);
                 
                 }else if ("listeRealisateurs".startsWith(command)){
