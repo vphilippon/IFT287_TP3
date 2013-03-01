@@ -31,13 +31,15 @@ class Episode {
 
     public boolean existe(String serieTitre, Date serieDate, int noSaison, int noEpisode) throws SQLException{
         boolean retour = false;
-        stmtEpisodeExiste.setString(1,serieTitre);
-        stmtEpisodeExiste.setDate(2,serieDate);
-        stmtEpisodeExiste.setInt(3,noSaison);
-        stmtEpisodeExiste.setInt(4,noEpisode);
         try{
+            stmtEpisodeExiste.setString(1,serieTitre);
+            stmtEpisodeExiste.setDate(2,serieDate);
+            stmtEpisodeExiste.setInt(3,noSaison);
+            stmtEpisodeExiste.setInt(4,noEpisode);        
             ResultSet rs = stmtEpisodeExiste.executeQuery();
-            if(rs.next()) retour = true;
+            if(rs.next()) {
+                retour = true;
+            }
         }catch(SQLException e){
             throw e;
         }
@@ -45,14 +47,14 @@ class Episode {
     }
 
     void ajouter(String titre, String titreSerie, Date anneeSortieSerie, int noSaison, int noEpisode, String description, Date dateDiffusion) throws SQLException {
-        stmtAjouterEpisode.setString(1, titre);
-        stmtAjouterEpisode.setString(2, titreSerie);
-        stmtAjouterEpisode.setDate(3, anneeSortieSerie);
-        stmtAjouterEpisode.setInt(4, noSaison);
-        stmtAjouterEpisode.setInt(5, noEpisode);
-        stmtAjouterEpisode.setString(6, description);
-        stmtAjouterEpisode.setDate(7, dateDiffusion);
-        try{
+        try{    
+            stmtAjouterEpisode.setString(1, titre);
+            stmtAjouterEpisode.setString(2, titreSerie);
+            stmtAjouterEpisode.setDate(3, anneeSortieSerie);
+            stmtAjouterEpisode.setInt(4, noSaison);
+            stmtAjouterEpisode.setInt(5, noEpisode);
+            stmtAjouterEpisode.setString(6, description);
+            stmtAjouterEpisode.setDate(7, dateDiffusion);        
             stmtAjouterEpisode.executeUpdate();
         }catch(SQLException e){
             throw e;

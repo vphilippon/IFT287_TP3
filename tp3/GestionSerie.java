@@ -74,7 +74,7 @@ class GestionSerie {
         }
     }
     
-    public void ajoutRoleAEpisode(String serieTitre, Date serieDate, int noSaison, int noEpisode, 
+    public void ajoutRoleAEpisode(String titre, String serieTitre, Date serieDate, int noSaison, int noEpisode, 
             String acteur, String roleActeur) throws Exception {
         try {
             if(!serie.existe(serieTitre, serieDate)){
@@ -96,7 +96,7 @@ class GestionSerie {
                         noEpisode + " de la saison " + noSaison + " dans le role de : " + roleActeur);
             }
             
-            roleEpisode.ajouter(serieTitre, serieDate, noSaison, noEpisode, acteur, roleActeur);
+            roleEpisode.ajouter(titre, serieTitre, serieDate, noSaison, noEpisode, acteur, roleActeur);
             cx.commit();
         } catch (Exception e) {
             cx.rollback();
@@ -110,10 +110,10 @@ class GestionSerie {
         }
         List<TuplePersonne> listeActeurs = personne.acteursDeSerie(serieTitre, serieDate);
 
-        StringBuffer output = new StringBuffer();
+        StringBuilder output = new StringBuilder();
         Iterator<TuplePersonne> it = listeActeurs.iterator();
         while(it.hasNext()){
-            output.append(it.next().getNom() + (it.hasNext() ?", ":"."));
+            output.append(it.next().getNom()).append(it.hasNext() ?", ":".");
         }
         System.out.println("Voici les acteurs de la serie : ");
         System.out.println(output.toString());

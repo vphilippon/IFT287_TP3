@@ -77,10 +77,10 @@ class GestionPersonne {
     public void afficherRealisateur() throws SQLException {
         List<TuplePersonne> listeRealisateur = personne.realisateurDeFilms();
 
-        StringBuffer output = new StringBuffer();
+        StringBuilder output = new StringBuilder();
         Iterator<TuplePersonne> it = listeRealisateur.iterator();
         while(it.hasNext()){
-            output.append(it.next().getNom() + (it.hasNext() ?", ":"."));
+            output.append(it.next().getNom()).append(it.hasNext() ?", ":".");
         }
         System.out.println("Voici les realisateurs de films : ");
         System.out.println(output.toString());
@@ -92,10 +92,10 @@ class GestionPersonne {
         }
         List<TupleRoleFilm> tuples = roleFilm.rolesDeActeur(nom); 
         
-        StringBuffer output = new StringBuffer();
+        StringBuilder output = new StringBuilder();
         Iterator<TupleRoleFilm> it = tuples.iterator();
         while(it.hasNext()){
-            output.append(it.next().getTitre() + (it.hasNext() ?", ":"."));
+            output.append(it.next().getFilmTitre()).append(it.hasNext() ?", ":".");
         }
         System.out.println("L'acteur " + nom + " a participe aux films : ");
         System.out.println(output.toString());

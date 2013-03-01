@@ -156,6 +156,7 @@ public class Main {
                 
                 }else if ("ajoutActeurEpisode".startsWith(command)){
                     gestionTp3.gestionSerie.ajoutRoleAEpisode(
+                            readString(tokenizer) /* titre episode */,
                             readString(tokenizer) /* titre serie */,
                             readDate(tokenizer) /* annee serie */,
                             readInt(tokenizer) /* no saison */,

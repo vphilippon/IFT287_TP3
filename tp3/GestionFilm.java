@@ -132,7 +132,7 @@ class GestionFilm {
         StringBuilder output = new StringBuilder();
         Iterator<TupleRoleFilm> it = tuples.iterator();
         while(it.hasNext()){
-            output.append(it.next().getNom()).append(it.hasNext() ?", ":".");
+            output.append(it.next().getNomActeur()).append(it.hasNext() ?", ":".");
         }
         System.out.println(output.toString());
     }
