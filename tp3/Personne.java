@@ -9,11 +9,11 @@ import java.util.List;
 
 public class Personne {
 
-    private PreparedStatement pstmGetPersonne;
-    private PreparedStatement pstmInsertPersonne;
-    private PreparedStatement pstmDeletePersonne;
-    private PreparedStatement pstmtGetRealisateur;
-    private PreparedStatement pstmtGetActeurDeSerie;
+    private PreparedStatement stmGetPersonne;
+    private PreparedStatement stmInsertPersonne;
+    private PreparedStatement stmDeletePersonne;
+    private PreparedStatement stmtGetRealisateur;
+    private PreparedStatement stmtGetActeurDeSerie;
     private Connexion cx;
 
     public Personne(Connexion cx) throws SQLException {
@@ -22,15 +22,16 @@ public class Personne {
     }
 
     private void init() throws SQLException {
-        try{
-            pstmGetPersonne = cx.getConnection().prepareStatement("SELECT * FROM Personne WHERE nom = ?");
-            pstmInsertPersonne = cx.getConnection().prepareStatement("INSERT INTO Personne (nom, datenaissance, lieunaissance, sexe) VALUES(?, ?, ?, ?)");
-            pstmDeletePersonne = cx.getConnection().prepareStatement("DELETE FROM Personne WHERE nom = ?");
-            pstmtGetRealisateur = cx.getConnection().prepareStatement("SELECT * FROM personne WHERE nom IN (SELECT DISTINCT realisateur FROM Film)");
-            pstmtGetActeurDeSerie = cx.getConnection().prepareStatement("SELECT * FROM personne WHERE nom IN (SELECT DISTINCT nomActeur FROM RoleEpisode WHERE titreSerie = ? AND anneeSortieSerie = ?)");
-        }catch(SQLException e){
-            throw e;
-        }
+        stmGetPersonne = cx.getConnection().prepareStatement(
+                "SELECT * FROM Personne WHERE nom = ?");
+        stmInsertPersonne = cx.getConnection().prepareStatement(
+                "INSERT INTO Personne (nom, datenaissance, lieunaissance, sexe) VALUES(?, ?, ?, ?)");
+        stmDeletePersonne = cx.getConnection().prepareStatement(
+                "DELETE FROM Personne WHERE nom = ?");
+        stmtGetRealisateur = cx.getConnection().prepareStatement(
+                "SELECT * FROM personne WHERE nom IN (SELECT DISTINCT realisateur FROM Film)");
+        stmtGetActeurDeSerie = cx.getConnection().prepareStatement(
+                "SELECT * FROM personne WHERE nom IN (SELECT DISTINCT nomActeur FROM RoleEpisode WHERE titreSerie = ? AND anneeSortieSerie = ?)");
     }
 
     public Connexion getConnexion() {
@@ -38,76 +39,57 @@ public class Personne {
     }
     
     public boolean existe(String nom) throws SQLException {
-        boolean personneExiste = false;
-        try{
-            pstmGetPersonne.setString(1, nom);
-            ResultSet rs = pstmGetPersonne.executeQuery();
-            personneExiste = rs.next();
-            rs.close();
-        }catch(SQLException e){
-            throw e;
-        }
+        boolean personneExiste;
+        stmGetPersonne.setString(1, nom);
+        ResultSet rs = stmGetPersonne.executeQuery();
+        personneExiste = rs.next();
+        rs.close();
         return personneExiste;
     }
     
     public TuplePersonne getPersonne(String nom) throws SQLException {
-        pstmGetPersonne.setString(1, nom);
-        ResultSet rs = pstmGetPersonne.executeQuery();
+        stmGetPersonne.setString(1, nom);
+        ResultSet rs = stmGetPersonne.executeQuery();
         rs.next();
 
         TuplePersonne tuplePer = new TuplePersonne(rs.getString("nom"), rs.getDate("dateNaissance"), 
                                                    rs.getString("lieuNaissance"), rs.getInt("sexe"));
+        rs.close();
         return tuplePer;
     }
     
     public void ajouter(String nom, Date dateNaissance, String lieuNaissance, int sexe) throws SQLException {
-        try{
-            pstmInsertPersonne.setString(1, nom);
-            pstmInsertPersonne.setDate(2, dateNaissance);
-            pstmInsertPersonne.setString(3, lieuNaissance);
-            pstmInsertPersonne.setInt(4, sexe);
-            pstmInsertPersonne.executeUpdate();
-        }catch(SQLException e){
-            throw e;
-        }
+        stmInsertPersonne.setString(1, nom);
+        stmInsertPersonne.setDate(2, dateNaissance);
+        stmInsertPersonne.setString(3, lieuNaissance);
+        stmInsertPersonne.setInt(4, sexe);
+        stmInsertPersonne.executeUpdate();
     }
     
     public int enlever(String nom) throws SQLException {
-        int retour = 0;
-        try{
-            pstmDeletePersonne.setString(1, nom);
-            retour = pstmDeletePersonne.executeUpdate();
-        }catch(SQLException e){
-            throw e;
-        }
-        return retour;
+        stmDeletePersonne.setString(1, nom);
+        return stmDeletePersonne.executeUpdate();
     }
     
     public List<TuplePersonne> realisateurDeFilms() throws SQLException {
         List<TuplePersonne> listeRealisateur = new ArrayList<TuplePersonne>();
-        try{
-            ResultSet rs = pstmtGetRealisateur.executeQuery();
-            while(rs.next()){
-                listeRealisateur.add(new TuplePersonne(rs.getString(1),rs.getDate(2),rs.getString(3),rs.getInt(4)));
-            }
-        }catch(SQLException e){
-            throw e;
+        ResultSet rs = stmtGetRealisateur.executeQuery();
+        while(rs.next()){
+            listeRealisateur.add(new TuplePersonne(rs.getString(1),rs.getDate(2),rs.getString(3),rs.getInt(4)));
         }
+        rs.close();
         return listeRealisateur;
     }
 
     public List<TuplePersonne> acteursDeSerie(String serieTitre, Date serieDate) throws SQLException {
         List<TuplePersonne> listeActeur = new ArrayList<TuplePersonne>();
-        try{
-            pstmtGetActeurDeSerie.setString(1, serieTitre);
-            pstmtGetActeurDeSerie.setDate(2, serieDate);
-            ResultSet rs = pstmtGetActeurDeSerie.executeQuery();
-            while(rs.next()){
-                listeActeur.add(new TuplePersonne(rs.getString(1),rs.getDate(2),rs.getString(3),rs.getInt(4)));
-            }
-        }catch(SQLException e){
-            throw e;
+        stmtGetActeurDeSerie.setString(1, serieTitre);
+        stmtGetActeurDeSerie.setDate(2, serieDate);
+        ResultSet rs = stmtGetActeurDeSerie.executeQuery();
+        while(rs.next()){
+            listeActeur.add(new TuplePersonne(rs.getString(1),rs.getDate(2),rs.getString(3),rs.getInt(4)));
         }
+        rs.close();
         return listeActeur;
     }
 

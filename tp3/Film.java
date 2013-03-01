@@ -22,15 +22,16 @@ class Film {
     }
 
     private void init() throws SQLException {
-        try{
-            stmtFilmExiste = cx.getConnection().prepareStatement("SELECT * FROM Film WHERE titre = ? AND dateSortie = ?");
-            stmtAjouterFilm = cx.getConnection().prepareStatement("INSERT INTO Film (titre, dateSortie, realisateur) VALUES (?, ?, ?)");
-            stmtSuppFilm = cx.getConnection().prepareStatement("INSERT INTO Film (titre, dateSortie, realisateur) VALUES (?, ?, ?)");
-            stmtAjoutDescFilm = cx.getConnection().prepareStatement("UPDATE Film SET description=?, duree=? WHERE titre = ? AND dateSortie = ?");
-            stmtGetFilmFrom = cx.getConnection().prepareStatement("SELECT * FROM Film WHERE realisateur = ?");
-        }catch(SQLException e){
-            throw e;
-        }
+        stmtFilmExiste = cx.getConnection().prepareStatement(
+                "SELECT * FROM Film WHERE titre = ? AND dateSortie = ?");
+        stmtAjouterFilm = cx.getConnection().prepareStatement(
+                "INSERT INTO Film (titre, dateSortie, realisateur) VALUES (?, ?, ?)");
+        stmtSuppFilm = cx.getConnection().prepareStatement(
+                "INSERT INTO Film (titre, dateSortie, realisateur) VALUES (?, ?, ?)");
+        stmtAjoutDescFilm = cx.getConnection().prepareStatement(
+                "UPDATE Film SET description=?, duree=? WHERE titre = ? AND dateSortie = ?");
+        stmtGetFilmFrom = cx.getConnection().prepareStatement(
+                "SELECT * FROM Film WHERE realisateur = ?");
     }
 
     public Connexion getConnexion() {
@@ -38,79 +39,54 @@ class Film {
     }
 
     public boolean existe(String titre, Date dateSortie) throws SQLException {
-        boolean retour = false;
-        try{
-            stmtFilmExiste.setString(1,titre);
-            stmtFilmExiste.setDate(2,dateSortie);
-            ResultSet rs = stmtFilmExiste.executeQuery();
-            if(rs.next()){
-                retour = true;
-            }
-        }catch(SQLException e){
-            throw e;
-        }
-        return retour;
+        boolean filmExiste;
+        stmtFilmExiste.setString(1,titre);
+        stmtFilmExiste.setDate(2,dateSortie);
+        ResultSet rs = stmtFilmExiste.executeQuery();
+        filmExiste = rs.next();
+        rs.close();
+        return filmExiste;
     }
 
     public void ajouter(String titre, Date dateSortie, String realisateur) throws SQLException {
-        try{
-            stmtAjouterFilm.setString(1,titre);
-            stmtAjouterFilm.setDate(2,dateSortie);
-            stmtAjouterFilm.setString(3,realisateur);
-            stmtAjouterFilm.executeUpdate();
-        }catch(SQLException e){
-            throw e;
-        }
+        stmtAjouterFilm.setString(1,titre);
+        stmtAjouterFilm.setDate(2,dateSortie);
+        stmtAjouterFilm.setString(3,realisateur);
+        stmtAjouterFilm.executeUpdate();
     }
 
     public int enlever(String titre, Date dateSortie) throws SQLException {
-        int nb = 0;
-        try{
-            stmtSuppFilm.setString(1,titre);
-            stmtSuppFilm.setDate(2,dateSortie);
-            nb = stmtSuppFilm.executeUpdate();
-        }catch(SQLException e){
-            throw e;
-        }
-        return nb;
+        stmtSuppFilm.setString(1,titre);
+        stmtSuppFilm.setDate(2,dateSortie);
+        return stmtSuppFilm.executeUpdate();
     }
 
     public TupleFilm getFilm(String titre, Date dateSortie) throws SQLException {
-        TupleFilm t;
-        try{
-            stmtFilmExiste.setString(1,titre);
-            stmtFilmExiste.setDate(2,dateSortie);
-            ResultSet rs = stmtFilmExiste.executeQuery();
-            t = new TupleFilm(rs.getString(1),rs.getDate(2),rs.getString(3),rs.getInt(4),rs.getString(5));
-        }catch(SQLException e){
-            throw e;
-        }
+        stmtFilmExiste.setString(1,titre);
+        stmtFilmExiste.setDate(2,dateSortie);
+        ResultSet rs = stmtFilmExiste.executeQuery();
+        rs.next();
+        TupleFilm t = new TupleFilm(rs.getString(1),rs.getDate(2),rs.getString(3),rs.getInt(4),rs.getString(5)); 
+        rs.close();
         return t;
     }
 
     public void ajouterDescription(String titre, Date anneeSortie, String description, int duree) throws SQLException {
-        try{
-            stmtAjoutDescFilm.setString(1,description);
-            stmtAjoutDescFilm.setInt(2,duree);
-            stmtAjoutDescFilm.setString(3,titre);
-            stmtAjoutDescFilm.setDate(4,anneeSortie);
-            stmtAjoutDescFilm.executeUpdate();
-        }catch(SQLException e){
-            throw e;
-        }
+        stmtAjoutDescFilm.setString(1,description);
+        stmtAjoutDescFilm.setInt(2,duree);
+        stmtAjoutDescFilm.setString(3,titre);
+        stmtAjoutDescFilm.setDate(4,anneeSortie);
+        stmtAjoutDescFilm.executeUpdate();
     }
 
     public List<TupleFilm> filmDeRealisateur(String nom) throws SQLException {
         List<TupleFilm> listeFilms = new ArrayList<TupleFilm>();
-        try{
-            stmtGetFilmFrom.setString(1,nom);
-            ResultSet rs = stmtGetFilmFrom.executeQuery();
-            while(rs.next()){
-                listeFilms.add(new TupleFilm(rs.getString(1),rs.getDate(2),rs.getString(3),rs.getInt(4), rs.getString(5)));
-            }
-        }catch(SQLException e){
-            throw e;
+        stmtGetFilmFrom.setString(1,nom);
+        ResultSet rs = stmtGetFilmFrom.executeQuery();
+        while(rs.next()){
+            listeFilms.add(new TupleFilm(rs.getString(1),rs.getDate(2),rs.getString(3),rs.getInt(4), rs.getString(5)));
         }
+        rs.close();
         return listeFilms;
     }
 }

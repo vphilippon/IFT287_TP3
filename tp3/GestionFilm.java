@@ -12,12 +12,6 @@ class GestionFilm {
     private RoleFilm roleFilm;
     private Connexion cx;
 
-    /**
-     * Création d'une instance
-     * @param film
-     * @param personne
-     * @throws Tp3Exception 
-     */
     public GestionFilm(Film film, Personne personne, RoleFilm roleFilm) throws Tp3Exception{
         if (film.getConnexion() != personne.getConnexion()){
             throw new Tp3Exception("Connexions différentes dans GestionFilm");
@@ -53,19 +47,14 @@ class GestionFilm {
         }
     }
     
-    /**
-     * 
-     * @param titre
-     * @param dateSortie 
-     */
     public void supprimerFilm(String titre, Date dateSortie) throws Exception {
         try {
             // Vérifie si le film existe
             if (!film.existe(titre, dateSortie)) {
                 throw new Tp3Exception("Impossible de supprimer, le film " + titre + " paru le " + dateSortie + " n'existe pas.");
             }
-            //verifie si un role est relier au film
-            if(roleFilm.hasRole(titre, dateSortie)){
+            //Verifie si un role est relier au film
+            if(roleFilm.aDesRoles(titre, dateSortie)){
                 throw new Tp3Exception("Impossible de supprimer, le film " + titre + ", un/des role(s) y sont encore rattache.");
             }
             // Supression du film dans la table Film
