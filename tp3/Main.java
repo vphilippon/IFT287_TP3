@@ -13,6 +13,7 @@ package tp3;
 
 import java.io.*;
 import java.sql.*;
+import java.text.ParseException;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -212,14 +213,18 @@ public class Main {
     static Date readDate(StringTokenizer tokenizer) throws Exception {
         if (tokenizer.hasMoreElements()) {
             String token = tokenizer.nextToken();
+
             try {
-                return Date.valueOf(token);
-            } catch (IllegalArgumentException e) {
-                throw new Exception("Date dans un format invalide - \"" + token
-                        + "\"");
+                Date dt = (Date) FormatDate.convertirDate(token);
+                return dt;
+            } catch (ParseException e) {
+                throw new Tp3Exception("Date en format YYYY-MM-DD attendue à la place  de \"" +
+                  token + "\"");
             }
-        } else
+            
+        } else {
             throw new Exception("autre parametre attendu");
+        }
     }
 
     public static boolean isStringNotEmpty(String s) {
