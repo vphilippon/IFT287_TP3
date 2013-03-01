@@ -1,23 +1,6 @@
 package tp3;
 import java.sql.*;
 
-/*
- * Projet : Tp3
- *
- * Membres :
- * - Guillaume Harvey 12 059 595
- * - Kevin Labrie 12 113 777
- * - Vincent Philippon 12 098 838
- * - Mathieu Larocque 10 129 032
- *
- * Tache :
- * - Guillaume Harvey : 
- * - Kevin Labrie : 
- * - Vincent Philippon : 
- * - Mathieu Larocque : 
- * 
- */
-
 // Copié du fichier GestionBibliotheque.java fournit sur le site: http://pages.usherbrooke.ca/vducharme/ift287/
 /**
   * Ouvre une connexion avec la BD relationnelle et
