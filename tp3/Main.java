@@ -28,11 +28,27 @@ public class Main {
         try {
             gestionTp3 = new GestionTp3("postgres", args[0], args[1], args[2]);
             
-            BufferedReader reader = ouvrirFichier(args);
-            String transaction = lireTransaction(reader);
-            while (!finTransaction(transaction)) {
-                executerTransaction(transaction);
-                transaction = lireTransaction(reader);
+            if (args.length > 3)
+            {
+                BufferedReader reader = ouvrirFichier(args);
+                String transaction = lireTransaction(reader);
+                while (!finTransaction(transaction)) {
+                    executerTransaction(transaction);
+                    transaction = lireTransaction(reader);
+                }
+            }
+            else
+            {
+                String ligneLue = "";
+                while(!finTransaction(ligneLue))
+                {
+                    InputStreamReader lecteur = new InputStreamReader(System.in); 
+                    BufferedReader entree = new BufferedReader(lecteur); 
+                    ligneLue = entree.readLine(); 
+                    
+                    if(!finTransaction(ligneLue))
+                        executerTransaction(ligneLue);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace(System.out);
