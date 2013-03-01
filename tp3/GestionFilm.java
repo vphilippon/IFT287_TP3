@@ -111,11 +111,11 @@ class GestionFilm {
                 throw new Tp3Exception("Impossible d'ajouter l'acteur au film, l'acteur " + nomActeur + " est nee avant la date de sortie du film.");
             }
             
-            if (roleFilm.existe(nomActeur, titre, anneeSortie)) {
+            if (roleFilm.existe(nomActeur, titre, anneeSortie, role)) {
                 throw new Tp3Exception("Impossible d'ajouter l'acteur " + nomActeur + " au film, l'acteur y joue deja.");
-            } 
+            }
 
-            roleFilm.ajouter(nomActeur, titre, anneeSortie);
+            roleFilm.ajouter(nomActeur, titre, anneeSortie, role);
             cx.commit();
         } catch (Exception e) {
             cx.rollback();
