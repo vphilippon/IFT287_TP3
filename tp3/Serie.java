@@ -100,10 +100,10 @@ class Serie {
         
         ResultSet rs = stmtSerieExiste.executeQuery();
         rs.next();
-        //String titre, Date anneeSortie, String realisateur, String description, int nbSaison
+        
         laSerie = new TupleSerie(rs.getString("titre"), rs.getDate("anneeSortie"), rs.getString("realisateur"), 
                                  rs.getString("description"), rs.getInt("nbSaison"));
-        
+        rs.close();
         return laSerie;
     }
 

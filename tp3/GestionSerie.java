@@ -63,17 +63,17 @@ class GestionSerie {
             // verifie si le no saison est valide
             if(noSaison > serie.getSerie(titreSerie, anneeSortieSerie).getNbSaison())
             {
-                throw new Tp3Exception("Il n'y a pas de saison " + noSaison + " pour la serie: " + titreSerie);
+                throw new Tp3Exception("Impossible d'ajouter, il n'y a pas de saison " + noSaison + " pour la serie: " + titreSerie);
             }
             //verifie que le no episode est valide
             if(noEpisode < 1){
-                throw new Tp3Exception("L'episode No" + noEpisode + " ne peu etre ajouter car : le numero doit etre plus grand ou egal a 1.");
+                throw new Tp3Exception("Impossible d'ajouter, l'episode No" + noEpisode + " ne peut etre ajouter car : le numero doit etre plus grand ou egal a 1.");
             }
             
             // S'assure que l'épisode d'avant existe
             if (noEpisode > 1) {
                 if (!episode.existe(titreSerie, anneeSortieSerie, noSaison, noEpisode-1)){
-                    throw new Tp3Exception("L'episode No" + noEpisode + " ne peu etre ajouter car : l'episode No " + (noEpisode-1) + " est manquant.");
+                    throw new Tp3Exception("Impossible d'ajouter, l'episode No" + noEpisode + " ne peu etre ajouter car : l'episode No " + (noEpisode-1) + " est manquant.");
                 }
             }
             // Ajout de l'épisode dans la table des épisodes
