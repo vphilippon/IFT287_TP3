@@ -86,7 +86,7 @@ class GestionPersonne {
         System.out.println(output.toString());
     }
     
-    public void afficherFilmDActeur(String nom) throws Tp3Exception, SQLException{
+    public void afficherFilmDeActeur(String nom) throws Tp3Exception, SQLException{
         if(!personne.existe(nom)){
             throw new Tp3Exception("Impossible d'afficher, l'acteur " + nom + " n'existe pas.");
         }

@@ -182,7 +182,7 @@ public class Main {
                             readDate(tokenizer) /* annee */);
                 
                 }else if ("listeFilmsActeur".startsWith(command)){
-                    gestionTp3.gestionPersonne.afficherFilmDActeur(
+                    gestionTp3.gestionPersonne.afficherFilmDeActeur(
                             readString(tokenizer) /* nom */);
                 
                 }else{
