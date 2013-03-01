@@ -32,19 +32,19 @@ class GestionFilm {
         try {
             // Vérifie si le film existe déja 
             if (film.existe(titre, dateSortie)) {
-                throw new Tp3Exception("Film existe deja: " + titre + " " + dateSortie);
+                throw new Tp3Exception("Impossible d'ajouter, le film " + titre + " paru le " + dateSortie + " existe deja.");
             }
             // S'assure que le réalisateur existe
             if (!personne.existe(realisateur)){
-                throw new Tp3Exception("Le réalisateur n'existe pas: " + realisateur);
+                throw new Tp3Exception("Impossible d'ajouter, le réalisateur " + realisateur + " n'existe pas.");
             }
             Date realisateurNaissance = personne.getPersonne(realisateur).getDateNaissance();
             // S'assure que le réalisateur est né avant la sortie du film
             if (realisateurNaissance.after(dateSortie)){
-                throw new Tp3Exception("Le réalisateur est né le: " + realisateurNaissance + 
-                        " et ne peut pas participer à un film créé le: " + dateSortie);
+                throw new Tp3Exception("Le réalisateur " + realisateur + " est né le: " + realisateurNaissance + 
+                        " et ne peut pas réaliser un film créé le: " + dateSortie);
             }  
-            // Ajout du livre dans la table des livres
+            // Ajout du film dans la table des films
             film.ajouter(titre, dateSortie, realisateur);
             cx.commit();
         } catch (Exception e) {
@@ -60,11 +60,11 @@ class GestionFilm {
      */
     public void supprimerFilm(String titre, Date dateSortie) throws Exception {
         try {
-            // Vérifie si le film existe déja
+            // Vérifie si le film existe
             if (!film.existe(titre, dateSortie)) {
-                throw new Tp3Exception("Film n'existe pas: " + titre + " " + dateSortie);
+                throw new Tp3Exception("Impossible de supprimer, le film " + titre + " paru le " + dateSortie + " n'existe pas.");
             }
-            // Supression du livre dans la table des livres
+            // Supression du film dans la table des film
             System.out.println(film.enlever(titre, dateSortie) + " film supprimé");
             cx.commit();
         }
@@ -85,7 +85,7 @@ class GestionFilm {
     public void ajoutDescFilm(String titre, Date anneeSortie, String description, int duree) throws Exception {
         try{
             if(!film.existe(titre, anneeSortie)){
-                throw new Tp3Exception("Film n'existe pas: " + titre + " " + anneeSortie);
+                throw new Tp3Exception("Impossible d'ajouter la description, le film " + titre + " paru le " + anneeSortie + " n'existe pas.");
             }
             film.ajouterDescription(titre, anneeSortie, description, duree);
             cx.commit();
@@ -98,29 +98,21 @@ class GestionFilm {
     
     public void ajoutActeurFilm(String titre, Date anneeSortie, String nomActeur, String role) throws Exception {
         try {
-            // XXX Partout ou nulle part, à décider
-//            if (!Main.isStringNotEmpty(titre) || !Main.isStringNotEmpty(nomActeur)
-//                    || !Main.isStringNotEmpty(role)) {
-//                //une donner est invalide
-//                throw new Tp3Exception("Un parametre est invalide (titre = '"
-//                        + titre + "', date de sortie = '" + anneeSortie
-//                        + "', acteur = '" + nomActeur + "', role = '" + role + "').\n");
-//            } 
             if (!personne.existe(nomActeur)) {
-                throw new Tp3Exception("Impossible d'ajouter l'acteur au film puisque que l'acteur n'existe pas.");
+                throw new Tp3Exception("Impossible d'ajouter l'acteur au film, l'acteur " + nomActeur + " n'existe pas.");
             }
                 
             if (!film.existe(titre, anneeSortie)) {
-                throw new Tp3Exception("Impossible d'ajouter l'acteur au film puisque que le film n'existe pas.");
+                throw new Tp3Exception("Impossible d'ajouter l'acteur au film, le film " + titre + " paru le " + anneeSortie + " n'existe pas.");
             }
             
             TuplePersonne acteur = personne.getPersonne(nomActeur);
             if(acteur.getDateNaissance().after(anneeSortie)){
-                throw new Tp3Exception("L'acteur semble etre nee avant la date de sortie du film.");
+                throw new Tp3Exception("Impossible d'ajouter l'acteur au film, l'acteur " + nomActeur + " est nee avant la date de sortie du film.");
             }
             
             if (roleFilm.existe(nomActeur, titre, anneeSortie)) {
-                throw new Tp3Exception("Impossible d'ajouter l'acteur au film puisque que celui-ci y joue deja.");
+                throw new Tp3Exception("Impossible d'ajouter l'acteur " + nomActeur + " au film, l'acteur y joue deja.");
             } 
 
             roleFilm.ajouter(nomActeur, titre, anneeSortie);

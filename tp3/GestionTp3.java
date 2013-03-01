@@ -51,7 +51,7 @@ public class GestionTp3 {
         episode = new Episode(cx);
         roleEpisode = new RoleEpisode(cx);
         gestionFilm = new GestionFilm(film, personne, roleFilm);
-        gestionPersonne = new GestionPersonne(personne, film, roleFilm);
+        gestionPersonne = new GestionPersonne(personne, film, roleFilm, serie, roleEpisode);
         gestionSerie = new GestionSerie(serie, episode, personne, roleEpisode);
     }
     

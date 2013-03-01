@@ -66,30 +66,29 @@ class GestionPersonne {
                 throw new Tp3Exception("Impossible de supprimer, la personne " + nom + " a un role dans au moins une series.");
             }
             
-            personne.enlever(nom);
             cx.commit();
+            System.out.println(personne.enlever(nom) + " personne supprime.");
         } catch (Exception e) {
             cx.rollback();
             throw e;
         }
     }
     
-    public void afficherRealisateur() throws Exception {
-        try{
-            film.listerRealisateur();
-            // XXX Affichage ici à faire
-            cx.commit();
+    public void afficherRealisateur() throws SQLException {
+        List<TuplePersonne> listeRealisateur = personne.realisateurDeFilms();
+
+        StringBuffer output = new StringBuffer();
+        Iterator<TuplePersonne> it = listeRealisateur.iterator();
+        while(it.hasNext()){
+            output.append(it.next().getNom() + (it.hasNext() ?", ":"."));
         }
-        catch(Exception e)
-        {
-            cx.rollback();
-            throw e;
-        }
+        System.out.println("Voici les realisateurs de films : ");
+        System.out.println(output.toString());
     }
     
     public void afficherFilmDActeur(String nom) throws Tp3Exception, SQLException{
         if(!personne.existe(nom)){
-            throw new Tp3Exception("L'acteur " + nom + " n'existe pas.");
+            throw new Tp3Exception("Impossible d'afficher, l'acteur " + nom + " n'existe pas.");
         }
         List<TupleRoleFilm> tuples = roleFilm.rolesDeActeur(nom); 
         
@@ -102,7 +101,21 @@ class GestionPersonne {
         System.out.println(output.toString());
     }
     
-    void afficherSerieActeur(String nom) {
+    void afficherSerieActeur(String nom) throws Tp3Exception, SQLException {
+        if(!personne.existe(nom)){
+            throw new Tp3Exception("Impossible d'afficher, l'acteur " + nom + " n'existe pas.");
+        }
+        // XXX PAS FINI ICI VP
+//        List<TupleSerie> listeSeries = serie.serieDActeur(nom);
+//
+//        StringBuffer output = new StringBuffer();
+//        Iterator<TupleSerie> it = listeSeries.iterator();
+//        while(it.hasNext()){
+//            output.append(it.next().getTitre + (it.hasNext() ?", ":"."));
+//        }
+//        System.out.println("Voici les series de l'acteur : ");
+//        System.out.println(output.toString());
+        
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

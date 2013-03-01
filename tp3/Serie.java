@@ -24,9 +24,14 @@ class Serie {
     public boolean existe(String serieTitre, Date serieDate) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
+    
+    public void ajouter(String titre, Date dateSortie, String realisateur) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 
     public List<TupleSerie> serieDeRealisateur(String nom) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
 
 }

@@ -12,16 +12,16 @@ import java.sql.Date;
  */
 class TupleFilm 
 {
-        private String titre;
-	private Date dateSortie;
-	private String description;
+    private String titre;
+    private Date dateSortie;
+    private String description;
 	private int duree;
 	private String realisateur;
 
     TupleFilm(String titre, Date dateSortie, String description, int duree, String realisateur) {
-         this.titre = titre;
-	 this.dateSortie = dateSortie;
-	 this.description = description;
+     this.titre = titre;
+     this.dateSortie = dateSortie;
+     this.description = description;
 	 this.duree = duree;
 	 this.realisateur = realisateur;
     }
