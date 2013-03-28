@@ -215,7 +215,7 @@ public class Main {
             String token = tokenizer.nextToken();
 
             try {
-                Date dt = (Date) FormatDate.convertirDate(token);
+                Date dt = new Date(FormatDate.convertirDate(token).getTime());
                 return dt;
             } catch (ParseException e) {
                 throw new Tp3Exception("Date en format YYYY-MM-DD attendue à la place  de \"" +
